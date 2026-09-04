@@ -1,0 +1,53 @@
+.otpContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.digitBox {
+  width: 52px;
+  height: 58px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border);
+  background-color: #FFFFFF;
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-maroon);
+  text-align: center;
+  outline: none;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.digitBox:focus {
+  border-color: var(--color-maroon);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  background-color: var(--color-rose-soft);
+}
+
+.digitBoxFilled {
+  border-color: var(--color-rose);
+  background-color: var(--color-rose-soft);
+}
+
+.digitBox:disabled {
+  opacity: 0.6;
+  background-color: var(--color-warm);
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .otpContainer {
+    gap: 6px;
+  }
+  .digitBox {
+    width: 44px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+}

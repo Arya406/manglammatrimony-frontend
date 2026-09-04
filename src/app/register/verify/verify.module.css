@@ -1,0 +1,143 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FAF7F2;
+  position: relative;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 var(--container-padding);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+}
+
+.loginPrompt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.loginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 16px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-maroon);
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--color-maroon);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.loginButton:hover {
+  background-color: var(--color-rose-soft);
+  border-color: var(--color-maroon-dark);
+}
+
+.mainSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px var(--container-padding);
+}
+
+.authGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* Left Column: Visual Art */
+.visualColumn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 580px;
+}
+
+.imageArchWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  border-radius: 280px 0 0 280px;
+  overflow: hidden;
+  border-left: 2.5px solid var(--color-gold);
+  box-shadow: -12px 16px 40px rgba(123, 17, 35, 0.12);
+  background: #EADCD0;
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+/* Right Column: Card Container */
+.formColumn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardWrapper {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: 0 12px 36px rgba(123, 17, 35, 0.06);
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Footer Simple */
+.bottomNote {
+  text-align: center;
+  padding: 20px;
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .mainSection {
+    padding: 32px 16px;
+  }
+
+  .authGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .visualColumn {
+    display: none;
+  }
+
+  .cardWrapper {
+    padding: 28px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+}

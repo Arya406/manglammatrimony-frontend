@@ -1,0 +1,78 @@
+.placeholderHeader {
+  font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #EFE8E9;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.headerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.skeletonGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.skeletonPill {
+  height: 24px;
+  width: 80px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #FAF7F2 25%, #F0EDE8 50%, #FAF7F2 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.errorBanner {
+  background-color: #FDF2F2;
+  border-bottom: 1px solid #F8D7DA;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 13.5px;
+  color: #721C24;
+}
+
+.retryButton {
+  background-color: #7B1123;
+  color: #FFFFFF;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.retryButton:hover {
+  background-color: #5E0C1B;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

@@ -1,0 +1,107 @@
+.capsule {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+  min-width: 155px;
+  padding: 8px 20px 8px 10px;
+  border-radius: var(--radius-full);
+  background-color: #FAF1F3;
+  border: 1px solid #E8D3D7;
+  color: var(--color-maroon);
+  cursor: pointer;
+  user-select: none;
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(123, 17, 35, 0.04);
+}
+
+.capsule:hover {
+  background-color: #F6E3E7;
+  border-color: #DEBDC4;
+  transform: translateY(-1px);
+}
+
+.selected {
+  background-color: var(--color-maroon) !important;
+  border-color: var(--color-maroon) !important;
+  color: var(--color-surface) !important;
+  box-shadow: 0 4px 14px rgba(123, 17, 35, 0.2) !important;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.capsule:has(.hiddenRadio:focus-visible) {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+}
+
+.iconCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background-color: #F5DFE4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.selected .iconCircle {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.label {
+  font-family: var(--font-primary);
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.selected .label {
+  font-weight: 600;
+  color: var(--color-surface);
+}
+
+.checkIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-surface);
+  margin-left: 2px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .capsule {
+    height: 52px;
+    min-width: 135px;
+    padding: 6px 16px 6px 8px;
+    gap: 10px;
+  }
+
+  .iconCircle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,270 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: relative;
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-primary);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+.requiredStar {
+  color: var(--color-maroon);
+}
+
+.trigger {
+  width: 100%;
+  min-height: 48px;
+  padding: 6px 12px;
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition-fast);
+  font-family: var(--font-primary);
+  font-size: 14.5px;
+  color: var(--color-text-primary);
+}
+
+.trigger:hover {
+  border-color: var(--color-rose-light);
+  background-color: #FCFAF7;
+}
+
+.trigger:focus-visible,
+.triggerOpen {
+  border-color: var(--color-maroon);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-rose-light);
+}
+
+.chipsOrPlaceholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-right: var(--space-2);
+}
+
+.placeholder {
+  color: var(--color-text-muted);
+  font-size: 14.5px;
+}
+
+.chipsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 10px;
+  background-color: #FAF1F3;
+  border: 1px solid #E8D3D7;
+  border-radius: var(--radius-full);
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-maroon);
+  line-height: 1.2;
+}
+
+.chipRemoveButton {
+  border: none;
+  background: transparent;
+  color: var(--color-maroon);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  border-radius: var(--radius-full);
+  width: 16px;
+  height: 16px;
+  transition: all var(--transition-fast);
+}
+
+.chipRemoveButton:hover {
+  background-color: var(--color-rose-light);
+}
+
+.chevron {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: var(--color-maroon);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 28px rgba(123, 17, 35, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  animation: fadeIn 150ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border-light);
+  background-color: #FAF7F2;
+}
+
+.searchIcon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: var(--font-primary);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.optionsList {
+  list-style: none;
+  padding: 4px;
+  margin: 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.optionsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.optionsList::-webkit-scrollbar-thumb {
+  background-color: var(--color-rose-light);
+  border-radius: var(--radius-full);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.option:hover {
+  background-color: var(--color-rose-soft);
+}
+
+.optionSelected {
+  background-color: #FAF1F3;
+  color: var(--color-maroon);
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.checkbox {
+  accent-color: var(--color-maroon);
+  cursor: pointer;
+}
+
+.optionLabel {
+  font-weight: 400;
+}
+
+.optionSelected .optionLabel {
+  font-weight: 600;
+}
+
+.checkBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-maroon);
+  background-color: var(--color-rose-light);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+}
+
+.noResults {
+  padding: 16px 12px;
+  text-align: center;
+  font-family: var(--font-primary);
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+
+.hasError .trigger {
+  border-color: #D32F2F;
+}
+
+.errorMessage {
+  font-family: var(--font-primary);
+  font-size: 12px;
+  color: #D32F2F;
+  margin-top: 2px;
+  text-align: left;
+}
+
+.helperMessage {
+  font-family: var(--font-primary);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  text-align: left;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

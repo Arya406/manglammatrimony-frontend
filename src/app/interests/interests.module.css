@@ -1,0 +1,379 @@
+/* ==========================================================================
+   Manglam Matrimony — Interests & Favourites Page Styles (/interests)
+   Uses Bricolage Grotesque typography throughout.
+   ========================================================================== */
+
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background, #FCFAF7);
+  font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
+}
+
+/* Toast Feedback */
+.feedbackToast {
+  position: fixed;
+  top: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 150;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background-color: #7B1123;
+  color: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(123, 17, 35, 0.25);
+  font-size: 13.5px;
+  font-weight: 500;
+  animation: fadeInDown 0.25s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.toastDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #E2B97F;
+  flex-shrink: 0;
+}
+
+.mainContent {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Banner Section */
+.bannerSection {
+  background: linear-gradient(135deg, #7B1123 0%, #540B18 100%);
+  border-radius: 16px;
+  padding: 28px 32px;
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px rgba(123, 17, 35, 0.15);
+}
+
+.bannerInner {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background-color: rgba(226, 185, 127, 0.2);
+  border: 1px solid rgba(226, 185, 127, 0.4);
+  border-radius: 20px;
+  color: #E2B97F;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  width: fit-content;
+}
+
+.goldSparkle {
+  color: #E2B97F;
+}
+
+.bannerTitle {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+}
+
+.bannerSubtitle {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Tab Navigation */
+.tabNavSection {
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  border: 1px solid #EFEAE3;
+  padding: 6px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.tabsWrapper {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabsWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.tabBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6E6862;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.tabBtn:hover {
+  background-color: #F8F5F0;
+  color: #7B1123;
+}
+
+.tabBtnActive {
+  background-color: #FDF5F6;
+  color: #7B1123;
+  font-weight: 700;
+}
+
+.tabCountBadge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: #EDE8E1;
+  color: #4A453F;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.tabBtnActive .tabCountBadge {
+  background-color: #7B1123;
+  color: #FFFFFF;
+}
+
+/* Content Section */
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sectionTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F1D1A;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.sectionSubtitle {
+  font-size: 13.5px;
+  color: #756F68;
+  margin: 0;
+}
+
+.resultsBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background-color: #EDE8E1;
+  color: #4A453F;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 64px 20px;
+  color: #7B1123;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #F7D6DE;
+  border-top-color: #7B1123;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 64px 24px;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  border: 1px dashed #DDD7CE;
+  gap: 12px;
+}
+
+.emptyIconCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #FDF5F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7B1123;
+  margin-bottom: 4px;
+}
+
+.emptyTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F1D1A;
+  margin: 0;
+}
+
+.emptySubtitle {
+  font-size: 14px;
+  color: #756F68;
+  max-width: 420px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.exploreButton {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background-color: #7B1123;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 24px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(123, 17, 35, 0.2);
+  transition: all 0.2s ease;
+}
+
+.exploreButton:hover {
+  background-color: #5F0D1B;
+  transform: translateY(-1px);
+}
+
+/* Profile Grid: exactly 250px desktop cards */
+.profileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  gap: 24px;
+  justify-content: center;
+  width: 100%;
+}
+
+.gridItem {
+  width: 250px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Footer */
+.appFooter {
+  background-color: #FFFFFF;
+  border-top: 1px solid #EFEAE3;
+  padding: 24px 20px;
+  margin-top: auto;
+}
+
+.footerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: #8C847B;
+  font-size: 12.5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bannerSection {
+    padding: 22px 20px;
+  }
+
+  .bannerTitle {
+    font-size: 22px;
+  }
+
+  .mainContent {
+    padding: 16px 14px 36px;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 580px) {
+  .profileGrid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .gridItem {
+    width: 100%;
+    max-width: 320px;
+  }
+}

@@ -1,0 +1,355 @@
+/* ==========================================================================
+   Manglam Matrimony — Login Page Styles
+   Mirrors Register page layout, two-column visual grid, header, and card styles.
+   ========================================================================== */
+
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FAF7F2;
+  position: relative;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 var(--container-padding);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.registerPrompt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.registerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 16px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-maroon);
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--color-maroon);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.registerButton:hover {
+  background-color: var(--color-rose-soft);
+  border-color: var(--color-maroon-dark);
+}
+
+.headerLogoutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 16px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-maroon);
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.headerLogoutButton:hover {
+  border-color: var(--color-maroon);
+  background-color: var(--color-rose-soft);
+}
+
+.mainSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px var(--container-padding);
+}
+
+.authGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* Left Column: Matrimonial Visual Arch */
+.visualColumn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 580px;
+}
+
+.imageArchWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  border-radius: 280px 0 0 280px;
+  overflow: hidden;
+  border-left: 2.5px solid var(--color-gold);
+  box-shadow: -12px 16px 40px rgba(123, 17, 35, 0.12);
+  background: #EADCD0;
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+/* Right Column: Login Card */
+.formColumn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardWrapper {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: 0 12px 36px rgba(123, 17, 35, 0.06);
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Loading View */
+.loadingInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 16px;
+  width: 100%;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid rgba(123, 17, 35, 0.15);
+  border-top-color: var(--color-maroon);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loadingText {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+/* Active Session Card View */
+.activeSessionCard {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerGroup {
+  margin-bottom: 20px;
+}
+
+.goldEyebrow {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-maroon);
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.userNameHighlight {
+  color: var(--color-maroon);
+  font-weight: 600;
+}
+
+.sessionStatusBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: #F6FAF7;
+  border: 1px solid #D6EAD8;
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+
+.sessionStatusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2E7D32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+.sessionStatusText {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1E4620;
+}
+
+.sessionActionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.continueProfileButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 48px;
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background-color: var(--color-maroon);
+  border: 1.5px solid var(--color-maroon);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--color-primary-glow);
+  transition: all var(--transition-fast);
+}
+
+.continueProfileButton:hover:not(:disabled) {
+  background-color: var(--color-maroon-dark);
+  border-color: var(--color-maroon-dark);
+  transform: translateY(-1px);
+}
+
+.continueProfileButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.switchAccountButton {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-maroon);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.switchAccountButton:hover {
+  background-color: var(--color-rose-soft);
+  border-color: var(--color-maroon);
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.smallSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+/* Footer */
+.bottomNote {
+  text-align: center;
+  padding: 20px;
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .mainSection {
+    padding: 32px 16px;
+  }
+
+  .authGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .visualColumn {
+    display: none;
+  }
+
+  .cardWrapper {
+    padding: 28px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+}

@@ -1,0 +1,410 @@
+/* ==========================================================================
+   Manglam Matrimony — Authenticated AppHeader Styles
+   Uses Bricolage Grotesque typography throughout.
+   ========================================================================== */
+
+.appHeader {
+  font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #EFE8E9;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.headerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Desktop Navigation */
+.desktopNav {
+  display: flex;
+  align-items: center;
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navLink {
+  position: relative;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #5A4E51;
+  text-decoration: none;
+  padding: 8px 4px;
+  transition: color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.navLink:hover {
+  color: #7B1123;
+}
+
+.navLinkActive {
+  color: #7B1123;
+  font-weight: 700;
+}
+
+.navBadge {
+  background: linear-gradient(135deg, #7B1123 0%, #5E0D1B 100%);
+  color: #FFFFFF;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 5px;
+  line-height: 1.2;
+}
+
+.activeIndicator {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background-color: #7B1123;
+  border-radius: 2px;
+}
+
+/* User Actions Group (Right) */
+.userActionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.messageIconButton,
+.likesReceivedButton,
+.iconButton {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #FAF1F3;
+  border: 1px solid #F7D6DE;
+  color: #7B1123;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.messageIconButton:hover,
+.likesReceivedButton:hover,
+.iconButton:hover {
+  background-color: #FDF2F4;
+  color: #5E0D1B;
+  transform: scale(1.05);
+  box-shadow: 0 3px 10px rgba(123, 17, 35, 0.12);
+}
+
+.chatIcon,
+.heartIcon {
+  color: #7B1123;
+  transition: transform 0.2s ease;
+}
+
+.messageIconButton:hover .chatIcon,
+.likesReceivedButton:hover .heartIcon {
+  transform: scale(1.1);
+}
+
+.likesBadge,
+.iconBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: linear-gradient(135deg, #7B1123 0%, #5E0D1B 100%);
+  color: #FFFFFF;
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 2px 5px rgba(123, 17, 35, 0.25);
+  line-height: 1;
+}
+
+/* Profile Pill Button & Menu */
+.profileMenuWrapper {
+  position: relative;
+}
+
+.profilePillButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 6px;
+  background-color: #FCFAF7;
+  border: 1px solid #EFE8E9;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.profilePillButton:hover {
+  background-color: #FAF1F3;
+  border-color: #F7D6DE;
+}
+
+.userAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7B1123 0%, #5E0D1B 100%);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileLabel {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1C1517;
+}
+
+.chevronIcon {
+  color: #8C7D81;
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 210px;
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  border: 1px solid #EFE8E9;
+  box-shadow: 0 10px 30px rgba(123, 17, 35, 0.08), 0 2px 8px rgba(0, 0, 0, 0.03);
+  padding: 8px;
+  z-index: 100;
+  animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownHeader {
+  padding: 8px 12px;
+}
+
+.dropdownUserName {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #7B1123;
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownUserStatus {
+  font-size: 11px;
+  font-weight: 600;
+  color: #16A34A;
+  margin: 0;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background-color: #F5EDED;
+  margin: 6px 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #5A4E51;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.dropdownItem:hover {
+  background-color: #FAF1F3;
+  color: #7B1123;
+}
+
+.dropdownLogout {
+  color: #991B1B;
+}
+
+.dropdownLogout:hover {
+  background-color: #FEE2E2;
+  color: #7F1D1D;
+}
+
+/* Mobile Toggle & Drawer */
+.mobileNavToggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 6px;
+  color: #7B1123;
+  cursor: pointer;
+}
+
+.mobileDrawer {
+  display: none;
+  background-color: #FFFFFF;
+  border-top: 1px solid #EFE8E9;
+  padding: 16px 24px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.mobileNavList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileNavLink {
+  font-size: 15px;
+  font-weight: 600;
+  color: #5A4E51;
+  text-decoration: none;
+  padding: 6px 0;
+}
+
+.mobileNavLinkActive {
+  color: #7B1123;
+  font-weight: 700;
+}
+
+.mobileDrawerDivider {
+  height: 1px;
+  background-color: #EFE8E9;
+  margin: 8px 0;
+}
+
+.mobileLogoutBtn {
+  background: none;
+  border: none;
+  color: #991B1B;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .desktopNav {
+    display: none;
+  }
+
+  .mobileNavToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobileDrawer {
+    display: block;
+    padding: 12px 16px 16px;
+  }
+}
+
+.statusPillReview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #FDF4E3;
+  color: #7B1123;
+  border: 1px solid #E4C87F;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .headerContainer {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .userActionsGroup {
+    gap: 8px;
+  }
+
+  .likesReceivedButton {
+    display: none;
+  }
+
+  .profileLabel {
+    display: none;
+  }
+
+  .chevronIcon {
+    display: none;
+  }
+
+  .profilePillButton {
+    padding: 3px;
+    border: none;
+    background: transparent;
+  }
+}

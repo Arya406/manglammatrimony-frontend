@@ -1,0 +1,92 @@
+.section {
+  padding: 80px 0;
+  background-color: #FAF7F2;
+  position: relative;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* Left Image Column */
+.imageColumn {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(123, 17, 35, 0.08);
+  border: 1px solid var(--color-border);
+}
+
+.conversationImage {
+  object-fit: cover;
+}
+
+/* Right Content Column */
+.contentColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.goldEyebrow {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-maroon);
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+
+.heartIconWrapper {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  vertical-align: middle;
+  color: var(--color-maroon);
+}
+
+.descriptionParagraph {
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .title {
+    font-size: 1.875rem;
+  }
+}

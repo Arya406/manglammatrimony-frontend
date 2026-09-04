@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Manglam Matrimony — Help Category Card Styles
+   ========================================================================== */
+
+.card {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.card:hover {
+  border-color: var(--color-maroon);
+  box-shadow: 0 4px 14px rgba(123, 17, 35, 0.06);
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  border-color: var(--color-maroon);
+}
+
+.cardActive {
+  background-color: #FDF2F4;
+  border-color: var(--color-maroon);
+  box-shadow: 0 4px 16px rgba(123, 17, 35, 0.08);
+}
+
+.iconContainer {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background-color: #FAF7F2;
+  color: var(--color-maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cardActive .iconContainer {
+  background-color: var(--color-maroon);
+  color: #FFFFFF;
+}
+
+.title {
+  font-family: var(--font-bricolage);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.cardActive .title {
+  color: var(--color-maroon);
+}
+
+.description {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}

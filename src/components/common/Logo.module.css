@@ -1,0 +1,67 @@
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.logoLink:hover {
+  opacity: 0.92;
+}
+
+.emblemWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brandName {
+  font-family: var(--font-primary);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-maroon);
+  text-transform: uppercase;
+}
+
+.tagline {
+  font-family: var(--font-primary);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-top: 2px;
+}
+
+/* Inverse Variant */
+.inverse .brandName {
+  color: #FFFFFF;
+}
+
+.inverse .tagline {
+  color: var(--color-gold-light);
+}
+
+/* Size Variants */
+.sm .brandName {
+  font-size: 1.125rem;
+}
+.sm .tagline {
+  font-size: 0.5rem;
+}
+
+.lg .brandName {
+  font-size: 1.625rem;
+}
+.lg .tagline {
+  font-size: 0.75rem;
+}

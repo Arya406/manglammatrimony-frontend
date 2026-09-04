@@ -1,0 +1,209 @@
+/* ==========================================================================
+   Manglam Matrimony — Pricing Card Styles
+   ========================================================================== */
+
+.card {
+  position: relative;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 16px rgba(123, 17, 35, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(123, 17, 35, 0.08);
+}
+
+.highlightedCard {
+  border-color: var(--color-gold);
+  box-shadow: 0 6px 24px rgba(197, 155, 39, 0.16);
+  background: linear-gradient(180deg, #FCFAF7 0%, #FFFFFF 100%);
+}
+
+.highlightedCard:hover {
+  box-shadow: 0 10px 36px rgba(197, 155, 39, 0.22);
+}
+
+.tagContainer {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.planTag {
+  display: inline-block;
+  background-color: var(--color-gold);
+  color: #FFFFFF;
+  font-family: var(--font-bricolage);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 16px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(197, 155, 39, 0.3);
+  white-space: nowrap;
+}
+
+.cardHeader {
+  margin-bottom: var(--space-6);
+}
+
+.durationName {
+  font-family: var(--font-bricolage);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-maroon);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.price {
+  font-family: var(--font-bricolage);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.period {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.description {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-6) 0;
+}
+
+.featuresSection {
+  flex-grow: 1;
+  margin-bottom: var(--space-8);
+}
+
+.featuresTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.checkIcon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #FAF1F3;
+  color: var(--color-maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.highlightedCard .checkIcon {
+  background-color: #FDF6E2;
+  color: var(--color-gold);
+}
+
+/* 6-Month Special Disclosures */
+.advisorDisclosures {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.disclosureBox {
+  background-color: #FAF7F2;
+  border: 1px solid #EADBCC;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #5A4E51;
+}
+
+.disclosureBox strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.ctaButton {
+  width: 100%;
+  padding: var(--space-3) var(--space-6);
+  background-color: #FFFFFF;
+  color: var(--color-maroon);
+  border: 1.5px solid var(--color-maroon);
+  border-radius: var(--radius-md);
+  font-family: var(--font-bricolage);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.ctaButton:hover,
+.ctaButton:focus-visible {
+  background-color: var(--color-maroon);
+  color: #FFFFFF;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(123, 17, 35, 0.2);
+}
+
+.ctaHighlighted {
+  background-color: var(--color-maroon);
+  color: #FFFFFF;
+  border-color: var(--color-maroon);
+}
+
+.ctaHighlighted:hover,
+.ctaHighlighted:focus-visible {
+  background-color: var(--color-maroon-dark);
+  box-shadow: 0 0 0 3px rgba(123, 17, 35, 0.3);
+}

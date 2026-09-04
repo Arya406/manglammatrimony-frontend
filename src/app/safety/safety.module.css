@@ -1,0 +1,146 @@
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FAF7F2;
+  color: #2D2424;
+}
+
+.mainContent {
+  flex: 1;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.noticeBanner {
+  background-color: #F3E8C8;
+  border-left: 4px solid #C59B27;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 36px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #4A3B2C;
+}
+
+.headerSection {
+  margin-bottom: 40px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7B1123;
+  margin-bottom: 8px;
+}
+
+.pageTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #7B1123;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.metaInfo {
+  font-size: 0.9375rem;
+  color: #6E5E5E;
+  line-height: 1.5;
+}
+
+.ruleCard {
+  background: #FFFFFF;
+  border: 1px solid #EADBCE;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.ruleNumber {
+  background: #7B1123;
+  color: #FAF7F2;
+  font-size: 1rem;
+  font-weight: 700;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ruleContent {
+  flex: 1;
+}
+
+.ruleTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #7B1123;
+  margin-bottom: 8px;
+}
+
+.ruleText {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #423838;
+}
+
+.emergencyCard {
+  background: #FFF5F5;
+  border: 1px solid #F3C2C2;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-top: 36px;
+}
+
+.emergencyTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #93182C;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.emergencyText {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #552525;
+  margin-bottom: 12px;
+}
+
+.contactLink {
+  color: #7B1123;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.contactLink:hover {
+  color: #93182C;
+}
+
+@media (max-width: 640px) {
+  .mainContent {
+    padding: 32px 16px 60px;
+  }
+  .pageTitle {
+    font-size: 1.75rem;
+  }
+  .ruleCard {
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 18px;
+  }
+}

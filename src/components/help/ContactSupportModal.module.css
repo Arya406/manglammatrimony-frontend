@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Manglam Matrimony — Contact Support Modal Styles
+   ========================================================================== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(28, 21, 23, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: var(--space-4);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  max-width: 500px;
+  width: 100%;
+  padding: var(--space-8);
+  box-shadow: 0 16px 48px rgba(123, 17, 35, 0.16);
+  position: relative;
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+.iconWrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #FAF1F3;
+  color: var(--color-maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-family: var(--font-bricolage);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-maroon);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.intro {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0 0 var(--space-5) 0;
+}
+
+.channelBox {
+  background-color: #FAF7F2;
+  border: 1px solid #EADBCC;
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.channelLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.emailLink {
+  font-family: var(--font-bricolage);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-maroon);
+  text-decoration: none;
+}
+
+.emailLink:hover,
+.emailLink:focus-visible {
+  text-decoration: underline;
+  outline: none;
+}
+
+.hoursInfo {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  margin: 0 0 var(--space-6) 0;
+}
+
+.actionsGroup {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.closeAction {
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-maroon);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-bricolage);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.closeAction:hover,
+.closeAction:focus-visible {
+  background-color: var(--color-maroon-dark);
+  outline: none;
+}

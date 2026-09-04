@@ -1,0 +1,25 @@
+import { LanguageItem } from "@/types/profile";
+
+export const DEFAULT_LANGUAGES: LanguageItem[] = [
+  { id: "lang-hi", name: "Hindi", code: "hi", sortOrder: 1 },
+  { id: "lang-en", name: "English", code: "en", sortOrder: 2 },
+  { id: "lang-bn", name: "Bengali", code: "bn", sortOrder: 3 },
+  { id: "lang-te", name: "Telugu", code: "te", sortOrder: 4 },
+  { id: "lang-mr", name: "Marathi", code: "mr", sortOrder: 5 },
+  { id: "lang-ta", name: "Tamil", code: "ta", sortOrder: 6 },
+  { id: "lang-ur", name: "Urdu", code: "ur", sortOrder: 7 },
+  { id: "lang-gu", name: "Gujarati", code: "gu", sortOrder: 8 },
+  { id: "lang-kn", name: "Kannada", code: "kn", sortOrder: 9 },
+  { id: "lang-or", name: "Odia", code: "or", sortOrder: 10 },
+  { id: "lang-ml", name: "Malayalam", code: "ml", sortOrder: 11 },
+  { id: "lang-pa", name: "Punjabi", code: "pa", sortOrder: 12 },
+  { id: "lang-as", name: "Assamese", code: "as", sortOrder: 13 },
+  { id: "lang-mai", name: "Maithili", code: "mai", sortOrder: 14 },
+  { id: "lang-sa", name: "Sanskrit", code: "sa", sortOrder: 15 },
+  { id: "lang-mwr", name: "Marwari", code: "mwr", sortOrder: 16 },
+  { id: "lang-sd", name: "Sindhi", code: "sd", sortOrder: 17 },
+  { id: "lang-kok", name: "Konkani", code: "kok", sortOrder: 18 },
+  { id: "lang-ks", name: "Kashmiri", code: "ks", sortOrder: 19 },
+  { id: "lang-doi", name: "Dogri", code: "doi", sortOrder: 20 },
+  { id: "lang-other", name: "Other", code: "other", sortOrder: 21 },
+];

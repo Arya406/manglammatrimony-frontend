@@ -1,0 +1,192 @@
+.section {
+  padding: 80px 0;
+  background-color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+
+.cornerMandalaBottomRight {
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
+  opacity: 0.15;
+  color: var(--color-gold);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.goldEyebrow {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--color-maroon);
+  letter-spacing: -0.01em;
+}
+
+/* Timeline Layout */
+.timelineWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.timelineConnector {
+  position: absolute;
+  top: 15px;
+  left: 12%;
+  right: 12%;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 0%,
+    var(--color-gold) 20%,
+    var(--color-gold) 80%,
+    var(--color-border) 100%
+  );
+  z-index: 1;
+}
+
+.timelineGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  position: relative;
+  z-index: 2;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stepBadge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-maroon);
+  color: #FFFFFF;
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px var(--color-primary-glow);
+  border: 2px solid #FFFFFF;
+}
+
+.iconCircle {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-rose-soft);
+  color: var(--color-maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: transform var(--transition-fast);
+  border: 1px solid var(--color-border);
+}
+
+.stepItem:hover .iconCircle {
+  transform: scale(1.06);
+}
+
+.stepTitle {
+  font-family: var(--font-primary);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.stepDescription {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 220px;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .timelineConnector {
+    display: none;
+  }
+
+  .timelineGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 540px) {
+  .timelineGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .stepItem {
+    align-items: flex-start;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+  }
+
+  .stepBadge {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0;
+  }
+
+  .iconCircle {
+    grid-column: 1;
+    grid-row: 2;
+    margin-bottom: 0;
+  }
+
+  .stepTitle {
+    grid-column: 2;
+    grid-row: 1;
+    margin-bottom: 0;
+    align-self: center;
+  }
+
+  .stepDescription {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Manglam Matrimony — FAQ Accordion Styles
+   ========================================================================== */
+
+.accordionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.itemOpen {
+  border-color: #E8D3D7;
+  box-shadow: 0 4px 16px rgba(123, 17, 35, 0.04);
+}
+
+.headerButton {
+  width: 100%;
+  padding: var(--space-5) var(--space-6);
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.headerButton:hover {
+  background-color: #FAF7F2;
+}
+
+.headerButton:focus-visible {
+  outline: none;
+  background-color: #FAF7F2;
+  box-shadow: inset 0 0 0 2px var(--color-maroon);
+}
+
+.question {
+  font-family: var(--font-bricolage);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.itemOpen .question {
+  color: var(--color-maroon);
+}
+
+.chevronIcon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #FAF1F3;
+  color: var(--color-maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+.chevronRotated {
+  transform: rotate(180deg);
+  background-color: var(--color-maroon);
+  color: #FFFFFF;
+}
+
+.contentWrapper {
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.answerBody {
+  padding: 0 var(--space-6) var(--space-6);
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  border-top: 1px solid var(--color-border-light);
+  padding-top: var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .headerButton {
+    padding: var(--space-4) var(--space-4);
+  }
+  .question {
+    font-size: 1rem;
+  }
+  .answerBody {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    font-size: 0.875rem;
+  }
+}

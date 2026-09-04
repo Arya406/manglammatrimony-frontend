@@ -1,0 +1,74 @@
+.placeholderCard {
+  max-width: 540px;
+  margin: var(--space-8) auto 0;
+  padding: var(--space-10) var(--space-8);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.iconCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-rose-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.eyebrow {
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-gold);
+  margin-bottom: var(--space-2);
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--color-maroon);
+  line-height: 1.25;
+  margin-bottom: var(--space-3);
+}
+
+.subtitle {
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-8);
+}
+
+.actionGroup {
+  display: flex;
+  justify-content: center;
+}
+
+.backButton {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-maroon);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-rose-light);
+  border-radius: var(--radius-full);
+  background-color: var(--color-rose-soft);
+  transition: all var(--transition-fast);
+}
+
+.backButton:hover {
+  background-color: var(--color-rose-light);
+}

@@ -1,0 +1,97 @@
+.header {
+  width: 100%;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.actionWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.saveExitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.saveExitButton:hover {
+  color: var(--color-maroon);
+  background-color: var(--color-rose-soft);
+  border-color: var(--color-rose-light);
+}
+
+.saveExitButton:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+}
+
+.logoutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-maroon);
+  background: transparent;
+  border: 1px solid rgba(123, 17, 35, 0.25);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.logoutButton:hover {
+  color: #FFFFFF;
+  background-color: var(--color-maroon);
+  border-color: var(--color-maroon);
+}
+
+.logoutButton:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .saveExitButton,
+  .logoutButton {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}

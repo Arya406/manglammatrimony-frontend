@@ -1,0 +1,166 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(26, 18, 20, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modalCard {
+  background-color: #FFFFFF !important;
+  opacity: 1;
+  position: relative;
+  z-index: 1001;
+  border-radius: 16px;
+  max-width: 480px;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(123, 17, 35, 0.35);
+  border: 1px solid #E8DEC8;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-sizing: border-box;
+}
+
+.iconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FBF8F3 0%, #F5EDE0 100%);
+  border: 2px solid #C59B27;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  color: #7B1123;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #C59B27;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-family: var(--font-bricolage), serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #7B1123;
+  margin: 0 0 1rem 0;
+  line-height: 1.25;
+}
+
+.bodyText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #5A4E51;
+  margin: 0 0 1.75rem 0;
+}
+
+.statusNotice {
+  background-color: #FBF8F3;
+  border: 1px solid #EBDCC8;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.statusBadge {
+  background-color: #7B1123;
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.statusText {
+  font-size: 0.82rem;
+  color: #706265;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.primaryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #7B1123;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.primaryButton:hover {
+  background-color: #630C1B;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(123, 17, 35, 0.2);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+.trustNote {
+  font-size: 0.75rem;
+  color: #8C827A;
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .modalCard {
+    padding: 2rem 1.25rem;
+  }
+  .title {
+    font-size: 1.45rem;
+  }
+}

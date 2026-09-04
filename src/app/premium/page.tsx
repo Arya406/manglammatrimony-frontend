@@ -1,0 +1,15 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function PremiumPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/membership");
+  }, [router]);
+
+  return null;
+}
+

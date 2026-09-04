@@ -1,0 +1,261 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--color-border);
+  height: 72px;
+  display: flex;
+  align-items: center;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* Desktop Navigation */
+.desktopNav {
+  display: flex;
+  align-items: center;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 32px;
+}
+
+.navLink {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  padding: 6px 2px;
+  position: relative;
+  transition: color var(--transition-fast);
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: var(--color-maroon);
+}
+
+.activeLink {
+  color: var(--color-maroon);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-maroon);
+  padding-bottom: 3px;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 20px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-maroon);
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--color-maroon);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.loginButton:hover {
+  background-color: var(--color-rose-soft);
+  border-color: var(--color-maroon-dark);
+}
+
+.registerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 20px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: var(--color-maroon);
+  border: 1.5px solid var(--color-maroon);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.registerButton:hover {
+  background-color: var(--color-maroon-dark);
+  border-color: var(--color-maroon-dark);
+}
+
+.logoutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 18px;
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-maroon);
+  background-color: transparent;
+  border: 1.5px solid rgba(123, 17, 35, 0.3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.logoutButton:hover {
+  background-color: var(--color-maroon);
+  color: #FFFFFF;
+  border-color: var(--color-maroon);
+}
+
+/* Mobile Controls */
+.mobileMenuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  color: var(--color-maroon);
+  background: var(--color-rose-soft);
+  border: 1px solid var(--color-border);
+}
+
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(28, 21, 23, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 101;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+}
+
+.mobileOverlayOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85%;
+  max-width: 320px;
+  background: #FFFFFF;
+  box-shadow: -8px 0 32px rgba(123, 17, 35, 0.15);
+  z-index: 102;
+  transform: translateX(100%);
+  transition: transform var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.mobileDrawerOpen {
+  transform: translateX(0);
+}
+
+.mobileDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: 20px;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  background: var(--color-rose-soft);
+}
+
+.mobileNavList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 8px;
+}
+
+.mobileNavLink {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink:active {
+  background-color: var(--color-rose-soft);
+  color: var(--color-maroon);
+}
+
+.mobileActiveLink {
+  background-color: var(--color-rose-soft);
+  color: var(--color-maroon);
+  font-weight: 600;
+  border-left: 3px solid var(--color-maroon);
+}
+
+.mobileActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .desktopNav,
+  .navActions {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: flex;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+}

@@ -1,0 +1,119 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-base);
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+}
+
+/* Variants */
+.primary {
+  background: var(--color-maroon);
+  color: #FFFFFF;
+  border: 1.5px solid var(--color-maroon);
+  box-shadow: 0 4px 14px var(--color-primary-glow);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--color-maroon-dark);
+  border-color: var(--color-maroon-dark);
+  transform: translateY(-1px);
+}
+
+.primary:active:not(:disabled) {
+  transform: translateY(0);
+  background: var(--color-maroon-dark);
+}
+
+.secondary {
+  background: var(--color-surface);
+  color: var(--color-maroon);
+  border: 1.5px solid var(--color-maroon);
+  box-shadow: var(--shadow-sm);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--color-rose-soft);
+  transform: translateY(-1px);
+}
+
+.secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.text {
+  background: transparent;
+  color: var(--color-maroon);
+  border: 1.5px solid transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.text:hover:not(:disabled) {
+  color: var(--color-maroon-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.gold {
+  background: var(--color-gold);
+  color: #FFFFFF;
+  border: 1.5px solid var(--color-gold);
+}
+
+.gold:hover:not(:disabled) {
+  background: var(--color-gold-hover);
+  transform: translateY(-1px);
+}
+
+/* Sizes */
+.sm {
+  font-size: 0.8125rem;
+  padding: 6px 14px;
+  height: 34px;
+}
+
+.md {
+  font-size: 0.875rem;
+  padding: 8px 20px;
+  height: 40px;
+}
+
+.lg {
+  font-size: 0.9375rem;
+  padding: 12px 28px;
+  height: 48px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
