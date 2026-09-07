@@ -453,19 +453,18 @@
 .actionRow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin-top: auto;
   width: 100%;
 }
 
 .viewProfileButton,
-.sendInterestButton {
-  flex: 1;
-  min-width: 0;
-  height: 38px;
-  border-radius: 10px;
+.messageButton {
+  height: 46px;
+  min-height: 46px;
+  border-radius: 12px;
   font-family: var(--font-bricolage), sans-serif;
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -474,19 +473,24 @@
   text-decoration: none;
   transition: all 0.2s ease;
   outline: none;
-  padding: 0 4px;
-  white-space: nowrap;
   box-sizing: border-box;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .viewProfileButton {
+  flex: 1;
+  min-width: 0;
+  padding: 0 10px;
   background-color: #FFFFFF;
   border: 1.5px solid var(--color-maroon, #7B1123);
   color: var(--color-maroon, #7B1123);
 }
 
 .viewProfileButton:hover {
-  background-color: var(--color-rose-soft, #FDF2F4);
+  background-color: var(--color-rose-soft, #FAF1F3);
   border-color: var(--color-maroon-dark, #5E0D1B);
   color: var(--color-maroon-dark, #5E0D1B);
   transform: translateY(-1px);
@@ -497,57 +501,88 @@
 }
 
 .messageButton {
-  background: linear-gradient(135deg, var(--color-maroon, #7B1123) 0%, var(--color-maroon-dark, #5E0D1B) 100%);
-  border: 1.5px solid transparent;
+  min-width: 88px;
+  padding: 0 12px;
+  background-color: var(--color-maroon, #7B1123);
+  border: 1.5px solid var(--color-maroon, #7B1123);
   color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(123, 17, 35, 0.22);
+  box-shadow: 0 2px 8px rgba(123, 17, 35, 0.18);
+  flex-shrink: 0;
 }
 
 .messageButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--color-maroon-dark, #5E0D1B) 0%, #450712 100%);
-  box-shadow: 0 4px 12px rgba(123, 17, 35, 0.32);
+  background-color: var(--color-maroon-dark, #5E0D1B);
+  border-color: var(--color-maroon-dark, #5E0D1B);
+  color: #FFFFFF;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(123, 17, 35, 0.25);
 }
 
 .messageButton:active:not(:disabled) {
+  background-color: #4C0B16;
+  border-color: #4C0B16;
   transform: translateY(0);
 }
 
 .messageButton:disabled {
-  cursor: default;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Specific Relationship States */
+.acceptedActive {
+  background-color: var(--color-maroon, #7B1123);
+  border-color: var(--color-maroon, #7B1123);
+  color: #FFFFFF;
 }
 
 .pendingSentActive {
-  background: #F0FDF4 !important;
-  border-color: #86EFAC !important;
-  color: #166534 !important;
-  box-shadow: none !important;
+  background-color: #FAF1F3;
+  border: 1.5px solid #E8D3D7;
+  color: var(--color-maroon, #7B1123);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.88;
 }
 
-.acceptedActive {
-  background: #ECFDF5 !important;
-  border-color: #6EE7B7 !important;
-  color: #065F46 !important;
-  box-shadow: none !important;
+.pendingSentActive:hover {
+  background-color: #FAF1F3;
+  border-color: #E8D3D7;
+  color: var(--color-maroon, #7B1123);
+  transform: none;
+  box-shadow: none;
 }
 
 .declinedActive {
-  background: #FEF2F2 !important;
-  border-color: #FECACA !important;
-  color: #991B1B !important;
-  box-shadow: none !important;
-  cursor: not-allowed !important;
+  background-color: #F8F5F5;
+  border: 1.5px solid #E5DFE0;
+  color: #8C7D81;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.declinedActive:hover {
+  background-color: #F8F5F5;
+  border-color: #E5DFE0;
+  color: #8C7D81;
+  transform: none;
+  box-shadow: none;
 }
 
 .buttonLabelWithIcon {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 6px;
   white-space: nowrap;
 }
 
 .chatIcon {
   flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* ==========================================================================
@@ -574,8 +609,14 @@
   }
 
   .viewProfileButton,
-  .sendInterestButton {
-    height: 36px;
-    font-size: 11px;
+  .messageButton {
+    height: 42px;
+    min-height: 42px;
+    font-size: 12px;
+    padding: 0 8px;
+  }
+
+  .messageButton {
+    min-width: 80px;
   }
 }

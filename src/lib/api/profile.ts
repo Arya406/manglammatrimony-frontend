@@ -1,4 +1,5 @@
 import { ApiResponse } from "@/types/auth";
+import { ProfileCardData } from "@/types/profile-card";
 import {
   ProfileCreatedFor,
   InitializeProfileResponseData,
@@ -914,3 +915,41 @@ export async function submitProfile(): Promise<
     };
   }
 }
+
+/**
+ * Retrieves sanitized candidate profile for another user.
+ * Calls GET /api/profile/:profileId
+ */
+export async function getPublicProfile(
+  profileId: string
+): Promise<ApiResponse<ProfileCardData>> {
+  const token = getAuthToken();
+
+  if (!token) {
+    return {
+      success: false,
+      code: "UNAUTHORIZED",
+      message: "Your session has expired. Please log in again.",
+    };
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/profile/${profileId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("[API ERROR - getPublicProfile]:", error);
+    return {
+      success: false,
+      code: "NETWORK_ERROR",
+      message:
+        "Unable to connect to the server. Please check your internet connection and try again.",
+    };
+  }
+}
+

@@ -55,6 +55,7 @@ const ERROR_MESSAGE_MAP: Record<string, string> = {
   SUB_CASTE_CASTE_MISMATCH: "The selected sub-caste does not belong to this caste.",
   INVALID_GOTRA: "Please select a valid gotra.",
   GOTRA_COMMUNITY_MISMATCH: "The selected gotra does not belong to this community.",
+  GOTRA_RELIGION_MISMATCH: "Gotra is only applicable for Hindu religion.",
   INVALID_MANGLIK_STATUS: "Please select a valid Manglik status.",
 };
 
@@ -98,6 +99,7 @@ export function ReligionForm() {
   const [serverError, setServerError] = useState<string | null>(null);
 
   // Helper taxonomy finders
+  const hinduReligion = religions.find((r) => r.slug === "hindu");
   const otherReligion = religions.find((r) => r.slug === "other");
   const preferNotToSayReligion = religions.find((r) => r.slug === "prefer-not-to-say");
 
@@ -105,6 +107,9 @@ export function ReligionForm() {
   const preferNotToSayCommunity = communities.find((c) => c.slug === "prefer-not-to-say");
 
   // Determine active states
+  const isHindu =
+    Boolean(hinduReligion?.id) && religionValue === hinduReligion?.id;
+
   const isOtherReligion =
     religionValue === TOKEN_OTHER ||
     (Boolean(otherReligion?.id) && religionValue === otherReligion?.id);
@@ -115,6 +120,7 @@ export function ReligionForm() {
 
   const isOtherCaste = casteValue === TOKEN_OTHER;
   const isOtherSubCaste = subCasteValue === TOKEN_OTHER;
+
 
   // 1. Initial Load: Fetch Religions & Communities and Prefill
   useEffect(() => {
@@ -171,17 +177,24 @@ export function ReligionForm() {
             if (r.customCommunity) setCustomCommunity(r.customCommunity);
 
             // Fetch dependent children for structured community
+            const isProfileHindu = r.religion?.slug === "hindu";
             const [subComRes, casteRes, gotraRes] = await Promise.all([
               fetchSubCommunities(r.communityId),
               fetchCastes(r.communityId),
-              fetchGotras(r.communityId),
+              isProfileHindu
+                ? fetchGotras(r.communityId)
+                : Promise.resolve({ success: true, data: [] }),
             ]);
             if (isMounted) {
               setSubCommunities(
                 subComRes.success && Array.isArray(subComRes.data) ? subComRes.data : []
               );
               setCastes(casteRes.success && Array.isArray(casteRes.data) ? casteRes.data : []);
-              setGotras(gotraRes.success && Array.isArray(gotraRes.data) ? gotraRes.data : []);
+              setGotras(
+                isProfileHindu && gotraRes.success && Array.isArray(gotraRes.data)
+                  ? gotraRes.data
+                  : []
+              );
             }
           }
 
@@ -214,7 +227,11 @@ export function ReligionForm() {
           }
 
           if (r.subCommunityId) setSubCommunityId(r.subCommunityId);
-          if (r.gotraId) setGotraId(r.gotraId);
+          if (r.religion?.slug === "hindu" && r.gotraId) {
+            setGotraId(r.gotraId);
+          } else {
+            setGotraId("");
+          }
           if (r.manglik) setManglik(r.manglik);
         }
       } catch (err) {
@@ -307,12 +324,12 @@ export function ReligionForm() {
       const [subComRes, casteRes, gotraRes] = await Promise.all([
         fetchSubCommunities(newVal),
         fetchCastes(newVal),
-        fetchGotras(newVal),
+        isHindu ? fetchGotras(newVal) : Promise.resolve({ success: true, data: [] }),
       ]);
 
       setSubCommunities(subComRes.success && Array.isArray(subComRes.data) ? subComRes.data : []);
       setCastes(casteRes.success && Array.isArray(casteRes.data) ? casteRes.data : []);
-      setGotras(gotraRes.success && Array.isArray(gotraRes.data) ? gotraRes.data : []);
+      setGotras(isHindu && gotraRes.success && Array.isArray(gotraRes.data) ? gotraRes.data : []);
     } catch (err) {
       console.warn("Error fetching community children:", err);
     } finally {
@@ -416,11 +433,15 @@ export function ReligionForm() {
     label: sc.name,
   }));
 
-  // 6. Gotra Options
-  const gotraOptions: SelectOption[] = gotras.map((g) => ({
-    value: g.id,
-    label: g.name,
-  }));
+  // 6. Gotra Options (Hindu only: API gotras + Other + Not Applicable)
+  const gotraOptions: SelectOption[] = [
+    ...gotras.map((g) => ({
+      value: g.id,
+      label: g.name,
+    })),
+    { value: TOKEN_OTHER, label: "Other" },
+    { value: TOKEN_NOT_APPLICABLE, label: "Not Applicable" },
+  ];
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -523,6 +544,11 @@ export function ReligionForm() {
       resolvedCustomSubCaste = null;
     }
 
+    const resolvedGotraId =
+      isHindu && gotraId && gotraId !== TOKEN_OTHER && gotraId !== TOKEN_NOT_APPLICABLE
+        ? gotraId
+        : null;
+
     const payload: SaveReligionPayload = {
       religionId: resolvedReligionId,
       customReligion: resolvedCustomReligion,
@@ -533,7 +559,7 @@ export function ReligionForm() {
       customCaste: resolvedCustomCaste,
       subCasteId: resolvedSubCasteId,
       customSubCaste: resolvedCustomSubCaste,
-      gotraId: gotraId || null,
+      gotraId: resolvedGotraId,
       manglik: manglik || null,
     };
 
@@ -730,7 +756,7 @@ export function ReligionForm() {
 
           {/* Progressive Disclosure: Caste & Gotra when Community is chosen */}
           {Boolean(communityValue) && (
-            <div className={styles.formRow}>
+            <div className={isHindu ? styles.formRow : styles.formFullWidth}>
               {/* Caste */}
               <div className={styles.formGroup}>
                 <CustomSelect
@@ -776,20 +802,22 @@ export function ReligionForm() {
                 )}
               </div>
 
-              {/* Gotra */}
-              <div className={styles.formGroup}>
-                <CustomSelect
-                  id="gotra"
-                  label="Gotra"
-                  placeholder={isLoadingChildren ? "Loading gotras..." : "Select gotra"}
-                  options={gotraOptions}
-                  value={gotraId}
-                  onChange={(val) => setGotraId(val)}
-                  isSearchable
-                  searchPlaceholder="Search gotra..."
-                  disabled={isSubmitting || isLoadingChildren}
-                />
-              </div>
+              {/* Gotra (Hindu only) */}
+              {isHindu && (
+                <div className={styles.formGroup}>
+                  <CustomSelect
+                    id="gotra"
+                    label="Gotra"
+                    placeholder={isLoadingChildren ? "Loading gotras..." : "Select gotra"}
+                    options={gotraOptions}
+                    value={gotraId}
+                    onChange={(val) => setGotraId(val)}
+                    isSearchable
+                    searchPlaceholder="Search gotra..."
+                    disabled={isSubmitting || isLoadingChildren}
+                  />
+                </div>
+              )}
             </div>
           )}
 

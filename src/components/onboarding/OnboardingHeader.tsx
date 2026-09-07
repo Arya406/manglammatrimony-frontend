@@ -24,7 +24,7 @@ export function OnboardingHeader({
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logoWrapper}>
-          <Logo size="md" />
+          <Logo size="md" href="/matches" />
         </div>
 
         <div className={styles.actionWrapper}>
@@ -33,15 +33,15 @@ export function OnboardingHeader({
               type="button"
               onClick={onSaveAndExit}
               className={styles.saveExitButton}
-              aria-label="Save progress and exit to home"
+              aria-label="Save progress and return to matches"
             >
               Save & Exit
             </button>
           ) : (
             <Link
-              href="/"
+              href="/matches"
               className={styles.saveExitButton}
-              aria-label="Save progress and exit to home"
+              aria-label="Save progress and return to matches"
             >
               Save & Exit
             </Link>

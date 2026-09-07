@@ -372,7 +372,14 @@ function MessagesContent() {
     <div className={styles.pageWrapper}>
       <AppHeader />
 
-      <main className={styles.mainContent}>
+      <main
+        className={[
+          styles.mainContent,
+          isMobileDetailActive ? styles.mainContentDetailActive : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
         {/* Header Title */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Messages</h1>

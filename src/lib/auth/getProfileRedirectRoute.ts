@@ -20,12 +20,8 @@ export function getProfileRedirectRoute(
   // 1. Profile status checks
   const status = profileData.profile?.profileStatus || profileData.profileStatus;
 
-  if (status === "ACTIVE") {
+  if (status === "ACTIVE" || status === "IN_REVIEW") {
     return "/matches";
-  }
-
-  if (status === "IN_REVIEW") {
-    return "/onboarding/review";
   }
 
   // 2. Check onboarding progression stage

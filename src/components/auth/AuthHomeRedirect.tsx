@@ -10,19 +10,13 @@ import { useAuth } from "@/lib/auth/AuthContext";
  */
 export function AuthHomeRedirect() {
   const router = useRouter();
-  const { authStatus, profileStatus } = useAuth();
+  const { authStatus } = useAuth();
 
   useEffect(() => {
     if (authStatus === "AUTHENTICATED") {
-      if (profileStatus === "IN_REVIEW") {
-        router.replace("/onboarding/review");
-      } else if (profileStatus === "INCOMPLETE") {
-        router.replace("/onboarding");
-      } else {
-        router.replace("/matches");
-      }
+      router.replace("/matches");
     }
-  }, [router, authStatus, profileStatus]);
+  }, [router, authStatus]);
 
   return null;
 }

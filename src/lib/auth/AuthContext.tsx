@@ -98,93 +98,94 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (isValidatingRef.current) return;
     isValidatingRef.current = true;
 
-    // Yield to microtask to prevent synchronous setState inside effect body
-    await Promise.resolve();
+    try {
+      // Yield to microtask to prevent synchronous setState inside effect body
+      await Promise.resolve();
 
-    const currentToken = getAuthToken();
+      const currentToken = getAuthToken();
 
-    // 1. No token in storage -> definitively UNAUTHENTICATED
-    if (!currentToken) {
-      setAuthStatus("UNAUTHENTICATED");
-      setToken(null);
-      setUser(null);
-      setProfile(null);
-      setProfileStatus(null);
+      // 1. No token in storage -> definitively UNAUTHENTICATED
+      if (!currentToken) {
+        setAuthStatus("UNAUTHENTICATED");
+        setToken(null);
+        setUser(null);
+        setProfile(null);
+        setProfileStatus(null);
+        setError(null);
+        return;
+      }
+
+      setToken(currentToken);
+      setAuthStatus("AUTH_LOADING");
       setError(null);
+
+      // 2. Validate token against backend with bounded retry
+      let lastError: string | null = null;
+      let success = false;
+
+      for (let attempt = 0; attempt <= MAX_VALIDATION_RETRIES; attempt++) {
+        if (attempt > 0) {
+          await wait(RETRY_DELAY_MS * attempt);
+        }
+
+        try {
+          const res = await getProfile();
+
+          if (res.success && res.data) {
+            const rawStatus = (res.data.profile?.profileStatus || res.data.profileStatus) as ProfileStatus;
+            const resolvedStatus: ProfileStatus = rawStatus || null;
+
+            // Resolve display user
+            const cachedUser = getAuthUser();
+            const resolvedUser: AuthUserData = cachedUser || {
+              id: res.data.profile?.userId || "",
+              status: (resolvedStatus as string) || "ACTIVE",
+            };
+
+            setProfile(res.data);
+            setProfileStatus(resolvedStatus);
+            setUser(resolvedUser);
+            setAuthStatus("AUTHENTICATED");
+            setError(null);
+            success = true;
+            break;
+          }
+
+          // Explicit 401 / Unauthorized -> token is revoked or expired
+          if (!res.success && res.code === "UNAUTHORIZED") {
+            clearAuthSession();
+            setAuthStatus("UNAUTHENTICATED");
+            setToken(null);
+            setUser(null);
+            setProfile(null);
+            setProfileStatus(null);
+            setError(null);
+            success = true;
+            break;
+          }
+
+          // Server returned another error code (e.g. 500 or network issue)
+          lastError = res.message || "Validation failed";
+        } catch (err: unknown) {
+          lastError = err instanceof Error ? err.message : "Network error while validating session";
+        }
+      }
+
+      // 3. Persistent network or 5xx failure: Non-destructive error state
+      if (!success) {
+        // DO NOT call clearAuthSession()
+        // DO NOT set UNAUTHENTICATED
+        // DO NOT promote unverified cached user to AUTHENTICATED
+        setAuthStatus("AUTH_ERROR");
+        setError(
+          typeof lastError === "string"
+            ? lastError
+            : "Unable to connect to authentication server. Please check your connection and retry."
+        );
+      }
+    } finally {
       isValidatingRef.current = false;
-      return;
     }
-
-    setToken(currentToken);
-    setAuthStatus("AUTH_LOADING");
-    setError(null);
-
-    // 2. Validate token against backend with bounded retry
-    let lastError: string | null = null;
-    let success = false;
-
-    for (let attempt = 0; attempt <= MAX_VALIDATION_RETRIES; attempt++) {
-      if (attempt > 0) {
-        await wait(RETRY_DELAY_MS * attempt);
-      }
-
-      try {
-        const res = await getProfile();
-
-        if (res.success && res.data) {
-          const rawStatus = (res.data.profile?.profileStatus || res.data.profileStatus) as ProfileStatus;
-          const resolvedStatus: ProfileStatus = rawStatus || null;
-
-          // Resolve display user
-          const cachedUser = getAuthUser();
-          const resolvedUser: AuthUserData = cachedUser || {
-            id: res.data.profile?.userId || "",
-            status: (resolvedStatus as string) || "ACTIVE",
-          };
-
-          setProfile(res.data);
-          setProfileStatus(resolvedStatus);
-          setUser(resolvedUser);
-          setAuthStatus("AUTHENTICATED");
-          setError(null);
-          success = true;
-          break;
-        }
-
-        // Explicit 401 / Unauthorized -> token is revoked or expired
-        if (!res.success && res.code === "UNAUTHORIZED") {
-          clearAuthSession();
-          setAuthStatus("UNAUTHENTICATED");
-          setToken(null);
-          setUser(null);
-          setProfile(null);
-          setProfileStatus(null);
-          setError(null);
-          success = true;
-          break;
-        }
-
-        // Server returned another error code (e.g. 500 or network issue)
-        lastError = res.message || "Validation failed";
-      } catch (err: unknown) {
-        lastError = err instanceof Error ? err.message : "Network error while validating session";
-      }
-    }
-
-    // 3. Persistent network or 5xx failure: Non-destructive error state
-    if (!success) {
-      // DO NOT call clearAuthSession()
-      // DO NOT set UNAUTHENTICATED
-      // DO NOT promote unverified cached user to AUTHENTICATED
-      setAuthStatus("AUTH_ERROR");
-      setError(
-        typeof lastError === "string"
-          ? lastError
-          : "Unable to connect to authentication server. Please check your connection and retry."
-      );
-    }
-
-    isValidatingRef.current = false;
   }, []);
 
   // Initial validation on mount

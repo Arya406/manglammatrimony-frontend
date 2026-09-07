@@ -14,6 +14,8 @@ export default function SubmittedPage() {
   useEffect(() => {
     if (authStatus === "UNAUTHENTICATED") {
       router.replace("/login");
+    } else if (authStatus === "AUTHENTICATED") {
+      router.replace("/matches");
     }
   }, [router, authStatus]);
 
@@ -22,7 +24,7 @@ export default function SubmittedPage() {
     : "";
 
   return (
-    <OnboardingLayout>
+    <OnboardingLayout onSaveAndExit={() => router.push("/matches")}>
       <div className={styles.wrapper}>
         <div className={styles.card}>
           {/* Gold / Green Verification Badge */}

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { OnboardingHeader } from "./OnboardingHeader";
 import styles from "./OnboardingLayout.module.css";
 
@@ -13,9 +14,12 @@ export function OnboardingLayout({
   children,
   onSaveAndExit,
 }: OnboardingLayoutProps) {
+  const router = useRouter();
+  const handleSaveAndExit = onSaveAndExit ?? (() => router.push("/matches"));
+
   return (
     <div className={styles.layoutWrapper}>
-      <OnboardingHeader onSaveAndExit={onSaveAndExit} />
+      <OnboardingHeader onSaveAndExit={handleSaveAndExit} />
 
       <main className={styles.mainContent}>
         {/* Subtle background decorative ornament */}

@@ -99,7 +99,10 @@ export function AppHeader({ likesReceived: propLikesReceived }: AppHeaderProps) 
   }, [handleKeyDown]);
 
   const navLinks = isUnderReview
-    ? [{ label: "My Profile", href: "/onboarding/review" }]
+    ? [
+        { label: "Matches", href: "/matches" },
+        { label: "My Profile", href: "/onboarding/review" },
+      ]
     : [
         { label: "Matches", href: "/matches" },
         { label: "Interests", href: "/interests", badge: effectiveLikes > 0 ? effectiveLikes : undefined },
@@ -112,7 +115,7 @@ export function AppHeader({ likesReceived: propLikesReceived }: AppHeaderProps) 
       <div className={styles.headerContainer}>
         {/* Left: Brand Logo */}
         <div className={styles.brandGroup}>
-          <Logo size="md" href={isUnderReview ? "/onboarding/review" : "/matches"} />
+          <Logo size="md" href="/matches" />
         </div>
 
         {/* Center: Authenticated Navigation Links */}

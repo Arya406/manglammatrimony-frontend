@@ -1,5 +1,8 @@
 /* ==========================================================================
    Manglam Matrimony — Global Design Tokens & Styles
+   Primary Brand: Deep Maroon (#7B1123), Gold (#C59B27), Warm Ivory (#FCFAF7),
+   Soft Rose (#FAF1F3).
+   Primary Typography: Bricolage Grotesque throughout.
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap');
@@ -13,7 +16,8 @@
 
   --color-rose: #C44265;
   --color-rose-light: #F7D6DE;
-  --color-rose-soft: #FDF2F4;
+  --color-rose-soft: #FAF1F3;
+  --color-rose-subtle: #FDF2F4;
 
   --color-ivory: #FAF7F2;
   --color-background: #FCFAF7;
@@ -26,7 +30,7 @@
 
   --color-text-primary: #1C1517;
   --color-text-secondary: #5A4E51;
-  --color-text-muted: #8C7D81;
+  --color-text-muted: #7E6F6F;
   --color-text-inverse: #FFFFFF;
 
   --color-border: #EFE8E9;
@@ -34,10 +38,24 @@
   --color-border-focus: #7B1123;
   --color-focus-ring: rgba(123, 17, 35, 0.25);
 
-  /* Typography */
-  --font-primary: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  /* Typography — Bricolage Grotesque is the primary matrimonial font */
+  --font-primary: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-bricolage: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+
+  /* Typography Scale */
+  --text-display: clamp(1.75rem, 4vw, 2.375rem); /* 28px – 38px */
+  --text-heading: clamp(1.25rem, 2.5vw, 1.625rem); /* 20px – 26px */
+  --text-subheading: clamp(0.9375rem, 1.5vw, 1.125rem); /* 15px – 18px */
+  --text-body: 0.9375rem; /* 15px */
+  --text-label: 0.8125rem; /* 13px */
+  --text-caption: 0.75rem; /* 12px */
+
+  /* Standard Control Heights */
+  --control-height-lg: 48px;
+  --control-height-md: 44px;
+  --control-height-sm: 38px;
+  --control-touch-min: 44px;
 
   /* Spacing Scale */
   --space-1: 4px;
@@ -98,12 +116,13 @@ html {
 
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background-color: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-primary);
-  line-height: 1.6;
+  line-height: 1.55;
   overflow-x: hidden;
 }
 
@@ -115,13 +134,21 @@ main {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-primary);
   color: var(--color-text-primary);
-  line-height: 1.2;
+  line-height: 1.25;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 p, span, a, label, li {
   font-family: var(--font-primary);
+}
+
+/* Dynamic / unbounded user & database content protection */
+.dynamicText,
+.unboundedContent,
+.userContent {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 p {
@@ -140,9 +167,13 @@ img, svg {
 
 button, input, select, textarea {
   font-family: var(--font-primary);
-  cursor: pointer;
   border: none;
   background: none;
+}
+
+button {
+  cursor: pointer;
+  user-select: none;
 }
 
 :focus-visible {

@@ -17,7 +17,7 @@ export default function ReviewPage() {
   }, [router, authStatus]);
 
   return (
-    <OnboardingLayout>
+    <OnboardingLayout onSaveAndExit={() => router.push("/matches")}>
       <ProfileReview />
     </OnboardingLayout>
   );

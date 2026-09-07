@@ -43,16 +43,18 @@ export default function LoginPage() {
             setUserDisplayName(authUser?.phone || authUser?.email || null);
           }
           setIsCheckingSession(false);
-        } else {
-          // Token is invalid/expired — clear silently so user sees fresh login form
+        } else if (!response.success && response.code === "UNAUTHORIZED") {
+          // Token is confirmed invalid/expired — clear session so user sees fresh login form
           clearAuthSession();
           setActiveProfile(null);
+          setIsCheckingSession(false);
+        } else {
+          // Non-auth error (e.g. network/5xx) — preserve session token
           setIsCheckingSession(false);
         }
       } catch (err) {
         console.warn("Session check error on /login:", err);
-        clearAuthSession();
-        setActiveProfile(null);
+        // Preserve auth session on network/transient error
         setIsCheckingSession(false);
       }
     }

@@ -22,7 +22,7 @@ interface CategoryMeta {
 
 export default function MatchesPage() {
   const router = useRouter();
-  const { authStatus, profileStatus, profile, user, error, retryValidation } = useAuth();
+  const { authStatus, profile, user, error, retryValidation } = useAuth();
   const [activeCategory, setActiveCategory] = useState<DiscoveryCategory>("made-for-each-other");
   const [categoryProfiles, setCategoryProfiles] = useState<Record<DiscoveryCategory, ProfileCardData[]>>({
     "made-for-each-other": [],
@@ -38,7 +38,10 @@ export default function MatchesPage() {
     user?.email ||
     null;
 
-  // Authenticated route guard & profile lifecycle enforcement
+  // Authenticated route guard:
+  // Requires a valid authenticated session.
+  // Under the temporary review rule, all authenticated users (ACTIVE, IN_REVIEW, INCOMPLETE, SUSPENDED)
+  // are allowed to access /matches and browse candidate profiles.
   useEffect(() => {
     if (authStatus === "AUTH_LOADING" || authStatus === "AUTH_ERROR") {
       return;
@@ -48,30 +51,11 @@ export default function MatchesPage() {
       router.replace("/login");
       return;
     }
+  }, [router, authStatus]);
 
-    if (authStatus === "AUTHENTICATED") {
-      if (profileStatus === "IN_REVIEW") {
-        router.replace("/onboarding/review");
-        return;
-      }
-      if (profileStatus === "INCOMPLETE") {
-        router.replace("/onboarding");
-        return;
-      }
-      if (profileStatus === "REJECTED") {
-        router.replace("/onboarding/review");
-        return;
-      }
-      if (profileStatus === "SUSPENDED") {
-        router.replace("/onboarding/review");
-        return;
-      }
-    }
-  }, [router, authStatus, profileStatus]);
-
-  // Fetch real discovery profiles for the active category
+  // Fetch real discovery profiles for the active category for any authenticated user
   useEffect(() => {
-    if (authStatus !== "AUTHENTICATED" || profileStatus !== "ACTIVE") {
+    if (authStatus !== "AUTHENTICATED") {
       return;
     }
 
@@ -88,10 +72,6 @@ export default function MatchesPage() {
             ...prev,
             [activeCategory]: response.data.profiles,
           }));
-        } else if (!response.success && response.code === "PROFILE_UNDER_REVIEW") {
-          router.replace("/onboarding/review");
-        } else if (!response.success && response.code === "PROFILE_INCOMPLETE") {
-          router.replace("/onboarding");
         }
       } catch (err) {
         console.error("Error fetching discovery matches:", err);
@@ -105,7 +85,7 @@ export default function MatchesPage() {
     return () => {
       isMounted = false;
     };
-  }, [activeCategory, router, authStatus, profileStatus]);
+  }, [activeCategory, authStatus]);
 
   // Derive time-of-day greeting
   const getGreeting = () => {

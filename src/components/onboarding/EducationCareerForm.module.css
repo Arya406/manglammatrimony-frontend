@@ -211,15 +211,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 52px;
+  min-height: 48px;
+  height: 48px;
   padding: 0 var(--space-6);
-  font-family: var(--font-primary);
+  font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-maroon);
   background-color: var(--color-rose-soft);
-  border: 1px solid var(--color-rose-light);
-  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-rose-light);
+  border-radius: 10px;
   text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -232,12 +233,13 @@
 
 .continueButton {
   flex: 1;
-  height: 52px;
-  border-radius: var(--radius-md);
+  min-height: 48px;
+  height: 48px;
+  border-radius: 10px;
   background-color: var(--color-maroon);
   color: var(--color-surface);
-  font-family: var(--font-primary);
-  font-size: 16px;
+  font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
+  font-size: 15px;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -277,7 +279,7 @@
   justify-content: center;
   gap: 6px;
   margin-top: var(--space-2);
-  font-family: var(--font-primary);
+  font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
   font-size: 13px;
   font-weight: 400;
   color: var(--color-text-muted);
@@ -313,18 +315,14 @@
 
   .actionRow {
     flex-direction: column-reverse;
-    gap: var(--space-3);
+    gap: 12px;
   }
 
-  .backButton {
-    width: 100%;
-    height: 48px;
-  }
-
+  .backButton,
   .continueButton {
     width: 100%;
-    height: 50px;
-    font-size: 15.5px;
+    min-height: 48px;
+    height: 48px;
   }
 
   .trustMessage {

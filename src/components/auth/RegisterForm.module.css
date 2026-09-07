@@ -179,6 +179,7 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
+  min-height: 48px;
   height: 48px;
   font-family: var(--font-primary);
   font-size: 0.9375rem;
@@ -186,7 +187,7 @@
   color: #FFFFFF;
   background-color: var(--color-maroon);
   border: 1.5px solid var(--color-maroon);
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   cursor: pointer;
   box-shadow: 0 4px 14px var(--color-primary-glow);
   transition: all var(--transition-fast);

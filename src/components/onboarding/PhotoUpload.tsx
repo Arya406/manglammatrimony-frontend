@@ -9,8 +9,6 @@ import {
   uploadPhoto,
   deletePhoto,
   setPrimaryPhoto,
-  reorderPhotos,
-  devApprovePhoto,
   resolvePhotoUrl,
 } from "@/lib/api/profile";
 import { OnboardingProgress } from "./OnboardingProgress";
@@ -18,7 +16,7 @@ import styles from "./PhotoUpload.module.css";
 
 const MAX_PHOTOS = 6;
 
-type UploadStatus = "IDLE" | "PROCESSING" | "UPLOADING" | "SUCCESS" | "ERROR";
+type UploadStatus = "IDLE" | "UPLOADING" | "SUCCESS" | "ERROR";
 
 export function PhotoUpload() {
   const router = useRouter();
@@ -30,17 +28,20 @@ export function PhotoUpload() {
   const [photos, setPhotos] = useState<ProfilePhotoItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>("IDLE");
+  const [uploadProgressText, setUploadProgressText] = useState("Uploading photo...");
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
-  const [isReordering, setIsReordering] = useState(false);
 
   // Delete Confirmation Modal State
   const [photoToDelete, setPhotoToDelete] = useState<ProfilePhotoItem | null>(null);
 
-  // Errors & Feedback
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [validationError, setValidationError] = useState<string | null>(null);
+  // Drag & Drop State
+  const [isDragOver, setIsDragOver] = useState(false);
 
-  // 1. Initial Load: Fetch existing photos from database
+  // User Feedback
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // 1. Initial Load: Fetch authoritative photos list from backend
   useEffect(() => {
     let isMounted = true;
 
@@ -64,115 +65,151 @@ export function PhotoUpload() {
     };
   }, []);
 
-  // 2. Handle File Selection -> Automatic Image Processing & Normalization
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // 2. Keyboard listener for Escape to close delete modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && photoToDelete) {
+        setPhotoToDelete(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [photoToDelete]);
 
-    // Reset input value so same file can be re-selected if needed
+  // 3. Multi-file selection change handler
+  const handleFilesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (!fileList || fileList.length === 0) return;
+    const selectedFiles = Array.from(fileList);
+    // Reset input value so the user can re-select the same file if needed
     e.target.value = "";
-
-    await handleImageSelection(file);
+    await uploadMultipleFiles(selectedFiles);
   };
 
-  const handleImageSelection = async (rawFile: File) => {
+  // 4. Multi-file sequential uploader with validation and backend refresh
+  const uploadMultipleFiles = async (files: File[]) => {
+    if (uploadStatus === "UPLOADING") return;
     setErrorMessage(null);
-    setValidationError(null);
+    setSuccessMessage(null);
 
-    // Check limit
-    if (photos.length >= MAX_PHOTOS) {
-      setErrorMessage(`You can only upload a maximum of ${MAX_PHOTOS} photos.`);
+    const availableSlots = MAX_PHOTOS - photos.length;
+    if (availableSlots <= 0) {
+      setErrorMessage(`You have already uploaded the maximum of ${MAX_PHOTOS} photos.`);
       return;
     }
 
-    // Send raw selected file directly to backend for authoritative server-side processing
+    let filesToUpload = files;
+    if (files.length > availableSlots) {
+      setErrorMessage(
+        `You can only add ${availableSlots} more photo${
+          availableSlots === 1 ? "" : "s"
+        }. Uploading the first ${availableSlots}.`
+      );
+      filesToUpload = files.slice(0, availableSlots);
+    }
+
     setUploadStatus("UPLOADING");
 
-    try {
-      const response = await uploadPhoto(rawFile);
+    const uploadErrors: string[] = [];
+    let successfulUploads = 0;
 
-      if (!response.success) {
-        if (response.code === "UNAUTHORIZED") {
-          setErrorMessage("Your session has expired. Please log in again.");
-          setTimeout(() => router.push("/login"), 1500);
-          setUploadStatus("IDLE");
-          return;
+    for (let i = 0; i < filesToUpload.length; i++) {
+      const file = filesToUpload[i];
+      setUploadProgressText(
+        filesToUpload.length > 1
+          ? `Uploading photo ${i + 1} of ${filesToUpload.length}...`
+          : "Uploading photo..."
+      );
+
+      try {
+        const response = await uploadPhoto(file);
+        if (!response.success) {
+          if (response.code === "UNAUTHORIZED") {
+            setErrorMessage("Your session has expired. Please log in again.");
+            setTimeout(() => router.push("/login"), 1500);
+            setUploadStatus("IDLE");
+            return;
+          }
+
+          let userMsg =
+            response.message || `Failed to process "${file.name}". Please try another image.`;
+          if (response.code === "FILE_TOO_LARGE" || response.code === "IMAGE_TOO_LARGE") {
+            userMsg = `"${file.name}" is too large. Photos must be 20MB or less.`;
+          } else if (response.code === "IMAGE_DIMENSIONS_TOO_LARGE") {
+            userMsg = `"${file.name}" resolution is too high. Please select a photo with lower resolution.`;
+          } else if (
+            response.code === "INVALID_IMAGE" ||
+            response.code === "UNSUPPORTED_FILE_TYPE" ||
+            response.code === "UNSUPPORTED_IMAGE_FORMAT"
+          ) {
+            userMsg = `"${file.name}" is an unsupported format. Please upload JPG, PNG, WebP, or HEIC.`;
+          } else if (response.code === "IMAGE_TOO_SMALL") {
+            userMsg = `"${file.name}" is too small (minimum 150x150 pixels required).`;
+          } else if (response.code === "PHOTO_LIMIT_REACHED") {
+            userMsg = `You have reached the maximum allowed limit of ${MAX_PHOTOS} photos.`;
+          }
+          uploadErrors.push(userMsg);
+        } else {
+          successfulUploads++;
         }
-
-        let userMsg = response.message || "We couldn't process this photo. Please try another image.";
-        if (response.code === "FILE_TOO_LARGE" || response.code === "IMAGE_TOO_LARGE") {
-          userMsg = "This image is too large. Please choose a photo up to 20MB.";
-        } else if (response.code === "IMAGE_DIMENSIONS_TOO_LARGE") {
-          userMsg = "This image resolution is too high. Please select a photo with lower resolution.";
-        } else if (
-          response.code === "INVALID_IMAGE" ||
-          response.code === "UNSUPPORTED_FILE_TYPE" ||
-          response.code === "UNSUPPORTED_IMAGE_FORMAT"
-        ) {
-          userMsg = "Please select a valid image (JPG, PNG, WebP, or HEIC).";
-        } else if (response.code === "IMAGE_TOO_SMALL") {
-          userMsg = "Image is too small. Please choose a photo with at least 150x150 pixels.";
-        } else if (response.code === "PHOTO_LIMIT_REACHED") {
-          userMsg = `You can only upload a maximum of ${MAX_PHOTOS} photos.`;
-        }
-
-        setUploadStatus("ERROR");
-        setErrorMessage(userMsg);
-        setTimeout(() => setUploadStatus("IDLE"), 4000);
-        return;
+      } catch (err) {
+        console.error("Photo upload error:", err);
+        uploadErrors.push(`Failed to upload "${file.name}". Please try again.`);
       }
+    }
 
-      // Success State
-      setUploadStatus("SUCCESS");
-
-      // Refresh photo list from backend
+    // Always fetch authoritative latest photo list from backend
+    try {
       const refreshRes = await getPhotos();
       if (refreshRes.success && refreshRes.data) {
         setPhotos(refreshRes.data.photos || []);
-      } else if (response.data?.photo) {
-        setPhotos((prev) => [...prev, response.data!.photo]);
       }
+    } catch (err) {
+      console.error("Error refreshing photos after upload:", err);
+    }
 
-      // Transition back to idle after a moment
+    if (uploadErrors.length > 0) {
+      setUploadStatus("ERROR");
+      setErrorMessage(uploadErrors.join(" "));
+      setTimeout(() => setUploadStatus("IDLE"), 5000);
+    } else {
+      setUploadStatus("SUCCESS");
+      setSuccessMessage(
+        successfulUploads > 1
+          ? `Successfully uploaded and approved ${successfulUploads} photos.`
+          : "Photo uploaded and approved."
+      );
       setTimeout(() => {
         setUploadStatus("IDLE");
-      }, 1500);
-    } catch (err) {
-      console.error("Photo upload error:", err);
-      setUploadStatus("ERROR");
-      setErrorMessage("Photo upload failed. Please try again.");
-      setTimeout(() => setUploadStatus("IDLE"), 4000);
+        setSuccessMessage(null);
+      }, 2000);
     }
   };
 
-  // 3. Set Primary Photo
+  // 5. Set Primary / Main Photo
   const handleSetPrimary = async (photo: ProfilePhotoItem) => {
-    if (photo.photoType === "PRIMARY" || photo.moderationStatus === "REJECTED") {
-      return;
-    }
+    if (photo.photoType === "PRIMARY") return;
 
     setErrorMessage(null);
+    setSuccessMessage(null);
     setActionLoadingId(photo.id);
 
     try {
       const response = await setPrimaryPhoto(photo.id);
-
       if (!response.success) {
-        if (response.code === "PHOTO_REJECTED") {
-          setErrorMessage("This photo cannot be used as your main photo.");
-        } else {
-          setErrorMessage(
-            response.message || "We couldn't set this photo as primary. Please try again."
-          );
-        }
+        setErrorMessage(
+          response.message || "We couldn't set this photo as primary. Please try again."
+        );
         return;
       }
 
-      // Refresh list to update all photos' primary flags
+      // Refresh authoritative photos list from backend
       const refreshRes = await getPhotos();
       if (refreshRes.success && refreshRes.data) {
         setPhotos(refreshRes.data.photos || []);
       }
+      setSuccessMessage("Main photo updated successfully.");
+      setTimeout(() => setSuccessMessage(null), 2000);
     } catch (err) {
       console.error("Set primary error:", err);
       setErrorMessage("We couldn't update your primary photo. Please try again.");
@@ -181,7 +218,7 @@ export function PhotoUpload() {
     }
   };
 
-  // 4. Delete Photo
+  // 6. Delete Photo with confirmation
   const confirmDeletePhoto = async () => {
     if (!photoToDelete) return;
 
@@ -189,22 +226,24 @@ export function PhotoUpload() {
     setPhotoToDelete(null);
     setActionLoadingId(photoId);
     setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
       const response = await deletePhoto(photoId);
-
       if (!response.success) {
         setErrorMessage(response.message || "We couldn't remove your photo. Please try again.");
         return;
       }
 
-      // Refresh list
+      // Refresh authoritative photos list from backend
       const refreshRes = await getPhotos();
       if (refreshRes.success && refreshRes.data) {
         setPhotos(refreshRes.data.photos || []);
       } else {
         setPhotos((prev) => prev.filter((p) => p.id !== photoId));
       }
+      setSuccessMessage("Photo removed successfully.");
+      setTimeout(() => setSuccessMessage(null), 2000);
     } catch (err) {
       console.error("Delete photo error:", err);
       setErrorMessage("We couldn't remove your photo. Please try again.");
@@ -213,86 +252,13 @@ export function PhotoUpload() {
     }
   };
 
-  // 5. Accessible Reorder Controls (Move Left / Move Right)
-  const handleMove = async (currentIndex: number, direction: "left" | "right") => {
-    const targetIndex = direction === "left" ? currentIndex - 1 : currentIndex + 1;
-    if (targetIndex < 0 || targetIndex >= photos.length) return;
-
-    const reordered = [...photos];
-    const [moved] = reordered.splice(currentIndex, 1);
-    reordered.splice(targetIndex, 0, moved);
-
-    setPhotos(reordered);
-    setIsReordering(true);
-
-    try {
-      const photoIds = reordered.map((p) => p.id);
-      const res = await reorderPhotos(photoIds);
-      if (res.success && res.data?.photos) {
-        setPhotos(res.data.photos);
-      }
-    } catch (err) {
-      console.error("Reorder error:", err);
-      // Revert on error
-      const refreshRes = await getPhotos();
-      if (refreshRes.success && refreshRes.data) {
-        setPhotos(refreshRes.data.photos || []);
-      }
-    } finally {
-      setIsReordering(false);
-    }
-  };
-
-  // 6. Development-Only Photo Approval
-  const isDevApprovalAllowed =
-    process.env.NODE_ENV !== "production" &&
-    process.env.NEXT_PUBLIC_DEV_PHOTO_APPROVAL_ENABLED === "true";
-
-  const handleDevApprove = async (photo: ProfilePhotoItem) => {
-    if (photo.moderationStatus === "APPROVED") return;
-
-    setErrorMessage(null);
-    setActionLoadingId(photo.id);
-
-    try {
-      const response = await devApprovePhoto(photo.id);
-
-      if (!response.success) {
-        setErrorMessage(
-          response.message || "Failed to approve photo for testing."
-        );
-        return;
-      }
-
-      // Refresh list to update all photos' moderation status
-      const refreshRes = await getPhotos();
-      if (refreshRes.success && refreshRes.data) {
-        setPhotos(refreshRes.data.photos || []);
-      } else {
-        setPhotos((prev) =>
-          prev.map((p) =>
-            p.id === photo.id
-              ? { ...p, moderationStatus: "APPROVED" as const }
-              : p
-          )
-        );
-      }
-    } catch (err) {
-      console.error("Dev approve error:", err);
-      setErrorMessage("Failed to approve photo for testing.");
-    } finally {
-      setActionLoadingId(null);
-    }
-  };
-
-  // 7. Form Submission & Continue
+  // 7. Form Submission / Continue Navigation
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
-    setValidationError(null);
 
     if (photos.length === 0) {
-      setValidationError("Please add at least one photo to continue.");
+      setErrorMessage("Please add at least one photo to continue.");
       return;
     }
 
@@ -305,9 +271,7 @@ export function PhotoUpload() {
     router.push("/onboarding/partner-preferences");
   };
 
-  // Drag and Drop Handlers for Dropzone
-  const [isDragOver, setIsDragOver] = useState(false);
-
+  // 8. Drag and Drop Handlers
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     if (photos.length < MAX_PHOTOS && uploadStatus === "IDLE") {
@@ -323,21 +287,20 @@ export function PhotoUpload() {
   const handleDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
+    if (photos.length >= MAX_PHOTOS || uploadStatus === "UPLOADING") return;
 
-    if (photos.length >= MAX_PHOTOS || uploadStatus !== "IDLE") return;
-
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      await handleImageSelection(file);
+    const droppedFiles = Array.from(e.dataTransfer.files || []);
+    if (droppedFiles.length > 0) {
+      await uploadMultipleFiles(droppedFiles);
     }
   };
 
-  const isBusy = uploadStatus === "PROCESSING" || uploadStatus === "UPLOADING";
+  const isBusy = uploadStatus === "UPLOADING";
 
   return (
     <div className={styles.panelWrapper}>
       <div className={styles.panel}>
-        {/* Step Progress Minimal Header or Edit Mode Badge */}
+        {/* Header / Onboarding Progress */}
         {isEditMode ? (
           <div className={styles.editModeBadge}>
             <span className={styles.goldSparkle}>✦</span>
@@ -349,31 +312,30 @@ export function PhotoUpload() {
           </div>
         )}
 
-        {/* Main Heading & Subtitle */}
+        {/* Heading & Subtitle */}
         <div className={styles.headerGroup}>
           <h1 className={styles.title}>
             {isEditMode ? "Manage Photos" : "Add your photos"}
           </h1>
           <p className={styles.subtitle}>
             {isEditMode
-              ? "Upload, set primary photo, or manage existing photos. Changes are saved automatically."
-              : "Profiles with clear photos get better responses and more meaningful connections."}
+              ? "Upload, set your main photo, or manage existing photos. Changes save automatically."
+              : "Profiles with clear photos receive significantly more meaningful responses."}
           </p>
         </div>
 
-        {/* Short Helper Copy */}
+        {/* Informative Guidance Banner */}
         <div className={styles.instructionBanner}>
           <span>
-            Add at least one clear photo of yourself. You can add up to{" "}
-            {MAX_PHOTOS} photos.
+            Upload up to {MAX_PHOTOS} photos. Your first photo will be your main profile photo.
           </span>
         </div>
 
-        {/* Accessible Alert / Error Messages */}
-        {(errorMessage || validationError) && (
+        {/* Feedback Alerts */}
+        {errorMessage && (
           <div className={styles.errorAlert} role="alert" aria-live="assertive">
             <svg
-              className={styles.errorIcon}
+              className={styles.alertIcon}
               width="18"
               height="18"
               viewBox="0 0 20 20"
@@ -386,22 +348,44 @@ export function PhotoUpload() {
                 clipRule="evenodd"
               />
             </svg>
-            <span>{errorMessage || validationError}</span>
+            <span>{errorMessage}</span>
           </div>
         )}
 
-        {/* Hidden File Input */}
+        {successMessage && (
+          <div className={styles.successAlert} role="status" aria-live="polite">
+            <svg
+              className={styles.alertIcon}
+              width="18"
+              height="18"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span>{successMessage}</span>
+          </div>
+        )}
+
+        {/* Native Hidden Multi-File Input */}
         <input
           ref={fileInputRef}
           type="file"
+          multiple
           accept="image/*,image/jpeg,image/png,image/webp,image/heic,image/heif"
-          onChange={handleFileChange}
+          onChange={handleFilesChange}
           className={styles.hiddenFileInput}
           aria-hidden="true"
           tabIndex={-1}
+          disabled={isBusy || photos.length >= MAX_PHOTOS}
         />
 
-        {/* Main Content Area */}
+        {/* Main Content Section */}
         {isLoading ? (
           <div className={styles.loadingContainer}>
             <div className={styles.spinner} />
@@ -409,14 +393,34 @@ export function PhotoUpload() {
           </div>
         ) : (
           <div className={styles.contentSection}>
-            {/* Upload Area / Dropzone (Shown when under limit) */}
-            {photos.length < MAX_PHOTOS && (
+            {/* Grid Header with Redesigned Photo Count Pill */}
+            <div className={styles.gridHeader}>
+              <div className={styles.gridHeaderLeft}>
+                <h2 className={styles.gridTitle}>Your Photos</h2>
+                <span className={styles.gridSubtitle}>
+                  {photos.length === 0
+                    ? "Upload your first photo to get started"
+                    : "Main photo is displayed to other members first"}
+                </span>
+              </div>
+              <div
+                className={styles.photoCountPill}
+                aria-label={`${photos.length} of ${MAX_PHOTOS} photos uploaded`}
+              >
+                <span className={styles.countNumber}>{photos.length}</span>
+                <span className={styles.countDivider}>/</span>
+                <span className={styles.countMax}>{MAX_PHOTOS}</span>
+                <span className={styles.countLabel}>photos</span>
+              </div>
+            </div>
+
+            {/* Empty-State Upload Card (When photos.length === 0) */}
+            {photos.length === 0 ? (
               <div
                 className={[
-                  styles.dropzone,
-                  isDragOver ? styles.dropzoneActive : "",
-                  isBusy ? styles.dropzoneBusy : "",
-                  uploadStatus === "SUCCESS" ? styles.dropzoneSuccess : "",
+                  styles.emptyUploadCard,
+                  isDragOver ? styles.emptyUploadCardActive : "",
+                  isBusy ? styles.emptyUploadCardBusy : "",
                 ]
                   .filter(Boolean)
                   .join(" ")}
@@ -432,32 +436,18 @@ export function PhotoUpload() {
                     if (!isBusy) fileInputRef.current?.click();
                   }
                 }}
-                aria-label="Add photo"
+                aria-label="Upload photos"
               >
-                <div className={styles.dropzoneIconCircle}>
-                  {uploadStatus === "PROCESSING" || uploadStatus === "UPLOADING" ? (
+                <div className={styles.emptyUploadIconCircle}>
+                  {isBusy ? (
                     <div className={styles.spinnerSmall} />
-                  ) : uploadStatus === "SUCCESS" ? (
-                    <svg
-                      width="26"
-                      height="26"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#059669"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
                   ) : (
                     <svg
-                      width="26"
-                      height="26"
+                      width="30"
+                      height="30"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#7B1123"
+                      stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -470,82 +460,49 @@ export function PhotoUpload() {
                   )}
                 </div>
 
-                <div className={styles.dropzoneText}>
-                  <p className={styles.dropzoneTitle}>
-                    {uploadStatus === "PROCESSING"
-                      ? "Preparing your photo..."
-                      : uploadStatus === "UPLOADING"
-                      ? "Uploading your photo..."
-                      : uploadStatus === "SUCCESS"
-                      ? "Photo ready ✓"
-                      : photos.length === 0
-                      ? "Add your first photo"
-                      : "Add another photo"}
+                <div className={styles.emptyUploadContent}>
+                  <p className={styles.emptyUploadTitle}>
+                    {isBusy ? uploadProgressText : "Add your photos"}
                   </p>
-                  <p className={styles.dropzoneSubtitle}>
-                    {uploadStatus === "PROCESSING"
-                      ? "Optimizing resolution & square framing"
-                      : uploadStatus === "UPLOADING"
-                      ? "Saving securely to your profile"
-                      : uploadStatus === "SUCCESS"
-                      ? "Your photo has been saved to your profile"
-                      : "Drag & drop your photo here or click to browse"}
+                  <p className={styles.emptyUploadSubtitle}>
+                    {isBusy
+                      ? "Optimizing resolution and securely storing your photos..."
+                      : "Drag & drop your photos here, or click to choose from your device"}
                   </p>
-                  {uploadStatus === "IDLE" && (
-                    <span className={styles.dropzoneHelper}>
-                      JPG, PNG, WebP or HEIC (up to 20MB)
-                    </span>
-                  )}
+                  <span className={styles.emptyUploadHelper}>
+                    Supports JPG, PNG, WebP or HEIC • Up to 20MB each
+                  </span>
                 </div>
 
-                {uploadStatus === "IDLE" && (
+                {!isBusy && (
                   <button
                     type="button"
-                    className={styles.choosePhotoButton}
+                    className={styles.choosePhotosButton}
                     onClick={(e) => {
                       e.stopPropagation();
                       fileInputRef.current?.click();
                     }}
                   >
-                    Choose Photo
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    <span>Choose Photos</span>
                   </button>
                 )}
               </div>
-            )}
-
-            {/* Photo Limit Notice (When 6/6 photos added) */}
-            {photos.length >= MAX_PHOTOS && (
-              <div className={styles.limitBanner}>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className={styles.limitIcon}
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>You&apos;ve added the maximum of {MAX_PHOTOS} photos.</span>
-              </div>
-            )}
-
-            {/* Photos Grid Header */}
-            {photos.length > 0 && (
-              <div className={styles.gridHeader}>
-                <span className={styles.gridTitle}>Your Photos</span>
-                <span className={styles.gridCount}>
-                  {photos.length} / {MAX_PHOTOS}
-                </span>
-              </div>
-            )}
-
-            {/* Photo Grid */}
-            {photos.length > 0 && (
+            ) : (
+              /* Photo Grid (When photos.length > 0) */
               <div className={styles.photoGrid}>
                 {photos.map((photo, index) => {
                   const isPrimary = photo.photoType === "PRIMARY";
@@ -557,14 +514,11 @@ export function PhotoUpload() {
                       className={[
                         styles.photoCard,
                         isPrimary ? styles.photoCardPrimary : "",
-                        photo.moderationStatus === "REJECTED"
-                          ? styles.photoCardRejected
-                          : "",
                       ]
                         .filter(Boolean)
                         .join(" ")}
                     >
-                      {/* Image Preview */}
+                      {/* Image Preview Container */}
                       <div className={styles.imageContainer}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -576,102 +530,98 @@ export function PhotoUpload() {
                           loading="lazy"
                         />
 
-                        {/* Top Badges */}
+                        {/* Top Badges Overlay */}
                         <div className={styles.badgeOverlay}>
-                          {isPrimary && (
-                            <span className={styles.primaryBadge}>
-                              ★ Main Photo
+                          {isPrimary ? (
+                            <span className={styles.mainPhotoOverlayBadge}>
+                              <svg
+                                width="11"
+                                height="11"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path d="M8 1.5l1.9 4.2 4.6.4-3.5 3 1 4.5L8 11.3l-4 2.3 1-4.5-3.5-3 4.6-.4L8 1.5z" />
+                              </svg>
+                              <span>Main Photo</span>
                             </span>
+                          ) : (
+                            <span />
                           )}
 
-                          {/* Moderation Status Pill */}
-                          <span
-                            className={[
-                              styles.moderationPill,
-                              photo.moderationStatus === "PENDING"
-                                ? styles.statusPending
-                                : photo.moderationStatus === "APPROVED"
-                                ? styles.statusApproved
-                                : styles.statusRejected,
-                            ]
-                              .filter(Boolean)
-                              .join(" ")}
-                          >
-                            {photo.moderationStatus === "PENDING"
-                              ? "Under review"
-                              : photo.moderationStatus === "APPROVED"
-                              ? "Approved"
-                              : "Changes requested"}
+                          {/* Subtle Brand Approved Status Pill */}
+                          <span className={styles.approvedPill}>
+                            <svg
+                              width="11"
+                              height="11"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                            >
+                              <path d="M3.5 8.5l3 3 6-6" />
+                            </svg>
+                            <span>Approved</span>
                           </span>
                         </div>
                       </div>
 
-                      {/* Photo Actions Footer */}
-                      <div className={styles.cardActions}>
-                        {/* Primary Button */}
-                        {!isPrimary && photo.moderationStatus !== "REJECTED" && (
-                          <button
-                            type="button"
-                            className={styles.actionBtnText}
-                            onClick={() => handleSetPrimary(photo)}
-                            disabled={isActionLoading || isBusy}
-                            title="Set as your main profile photo"
-                          >
-                            Set Main
-                          </button>
-                        )}
+                      {/* Photo Card Footer & Actions */}
+                      <div className={styles.cardFooter}>
+                        <div className={styles.cardMeta}>
+                          <p className={styles.cardTitle}>
+                            {isPrimary ? "Main Photo" : `Photo ${index + 1}`}
+                          </p>
+                          <p className={styles.cardSubtitle}>
+                            {isPrimary
+                              ? "Primary profile photo"
+                              : "Visible on your profile"}
+                          </p>
+                        </div>
 
-                        {isPrimary && (
-                          <span className={styles.primaryLabel}>
-                            Main Photo
-                          </span>
-                        )}
-
-                        {/* Order Controls & Delete Button */}
-                        <div className={styles.actionGroupRight}>
-                          {photos.length > 1 && (
-                            <>
-                              <button
-                                type="button"
-                                className={styles.iconBtn}
-                                onClick={() => handleMove(index, "left")}
-                                disabled={
-                                  index === 0 ||
-                                  isReordering ||
-                                  isActionLoading ||
-                                  isBusy
-                                }
-                                title="Move left"
-                                aria-label="Move photo left"
+                        <div className={styles.cardActions}>
+                          {!isPrimary ? (
+                            <button
+                              type="button"
+                              className={styles.setMainButton}
+                              onClick={() => handleSetPrimary(photo)}
+                              disabled={isActionLoading || isBusy}
+                              aria-label={`Set Photo ${index + 1} as main photo`}
+                              title="Set as main profile photo"
+                            >
+                              <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.8"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
                               >
-                                ←
-                              </button>
-                              <button
-                                type="button"
-                                className={styles.iconBtn}
-                                onClick={() => handleMove(index, "right")}
-                                disabled={
-                                  index === photos.length - 1 ||
-                                  isReordering ||
-                                  isActionLoading ||
-                                  isBusy
-                                }
-                                title="Move right"
-                                aria-label="Move photo right"
-                              >
-                                →
-                              </button>
-                            </>
+                                <path d="M8 1.5l1.9 4.2 4.6.4-3.5 3 1 4.5L8 11.3l-4 2.3 1-4.5-3.5-3 4.6-.4L8 1.5z" />
+                              </svg>
+                              <span>Set as Main</span>
+                            </button>
+                          ) : (
+                            <span className={styles.defaultBadge}>Default</span>
                           )}
 
-                          {/* Delete Button */}
                           <button
                             type="button"
-                            className={styles.deleteBtn}
+                            className={styles.deleteIconButton}
                             onClick={() => setPhotoToDelete(photo)}
                             disabled={isActionLoading || isBusy}
+                            aria-label={
+                              isPrimary
+                                ? "Delete main photo"
+                                : `Delete photo ${index + 1}`
+                            }
                             title="Delete photo"
-                            aria-label="Delete photo"
                           >
                             <svg
                               width="15"
@@ -689,24 +639,97 @@ export function PhotoUpload() {
                           </button>
                         </div>
                       </div>
-
-                      {/* Dev-Only Photo Approval Button (Only shown in development when flag is true and photo is PENDING) */}
-                      {isDevApprovalAllowed && photo.moderationStatus === "PENDING" && (
-                        <div className={styles.devActionContainer}>
-                          <button
-                            type="button"
-                            className={styles.devApproveBtn}
-                            onClick={() => handleDevApprove(photo)}
-                            disabled={isActionLoading || isBusy}
-                            title="Approve this photo immediately for development testing"
-                          >
-                            <span className={styles.devBadge}>DEV</span> Approve for Testing
-                          </button>
-                        </div>
-                      )}
                     </div>
                   );
                 })}
+
+                {/* Integrated Upload Tile in Grid (When 1 <= photos.length < MAX_PHOTOS) */}
+                {photos.length < MAX_PHOTOS && (
+                  <div
+                    className={[
+                      styles.uploadTile,
+                      isDragOver ? styles.uploadTileActive : "",
+                      isBusy ? styles.uploadTileBusy : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onClick={() => !isBusy && fileInputRef.current?.click()}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        if (!isBusy) fileInputRef.current?.click();
+                      }
+                    }}
+                    aria-label="Add more photos"
+                  >
+                    {isBusy ? (
+                      <div className={styles.uploadTileLoading}>
+                        <div className={styles.spinnerSmall} />
+                        <p className={styles.uploadTileTitle}>
+                          {uploadProgressText}
+                        </p>
+                        <span className={styles.uploadTileSub}>
+                          Processing securely...
+                        </span>
+                      </div>
+                    ) : (
+                      <div className={styles.uploadTileContent}>
+                        <div className={styles.uploadTileIconCircle}>
+                          <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                          </svg>
+                        </div>
+                        <p className={styles.uploadTileTitle}>Add Photos</p>
+                        <p className={styles.uploadTileSub}>
+                          JPG, PNG, WebP or HEIC
+                        </p>
+                        <span className={styles.uploadTileSlotBadge}>
+                          {MAX_PHOTOS - photos.length} slot
+                          {MAX_PHOTOS - photos.length === 1 ? "" : "s"} left
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Photo Limit Notice (When MAX_PHOTOS photos exist) */}
+            {photos.length >= MAX_PHOTOS && (
+              <div className={styles.limitBanner}>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className={styles.limitIcon}
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>
+                  You have reached the maximum of {MAX_PHOTOS} photos. You can set any photo as main or delete to upload a replacement.
+                </span>
               </div>
             )}
 
@@ -717,52 +740,42 @@ export function PhotoUpload() {
                 height="16"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#C59B27"
+                stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className={styles.privacyIcon}
                 aria-hidden="true"
               >
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
               <span>
-                Your photos are kept secure and visible only to verified Manglam
-                Matrimony members.
+                Your photos are stored securely and visible only to verified Manglam Matrimony members.
               </span>
             </div>
 
-            {/* Divider */}
+            {/* Visual Divider */}
             <div className={styles.divider} aria-hidden="true" />
 
-            {/* Navigation Buttons Area */}
-            <form onSubmit={handleContinue} className={styles.actionsForm}>
+            {/* Navigation Actions Form */}
+            <form onSubmit={handleContinue} className={styles.actionForm}>
               {isEditMode ? (
-                <div className={styles.buttonGroup}>
-                  <Link
-                    href="/onboarding/review"
-                    className={styles.backButton}
-                  >
+                <div className={styles.actionRow}>
+                  <Link href="/onboarding/review" className={styles.backButton}>
                     Cancel
                   </Link>
 
                   <button
                     type="submit"
                     disabled={photos.length === 0 || isBusy}
-                    className={[
-                      styles.continueButton,
-                      photos.length > 0 && !isBusy
-                        ? styles.continueActive
-                        : styles.continueDisabled,
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
+                    className={styles.continueButton}
                   >
                     <span>Save & Return to Summary</span>
                   </button>
                 </div>
               ) : (
-                <div className={styles.buttonGroup}>
+                <div className={styles.actionRow}>
                   <Link
                     href="/onboarding/education-career"
                     className={styles.backButton}
@@ -773,14 +786,7 @@ export function PhotoUpload() {
                   <button
                     type="submit"
                     disabled={photos.length === 0 || isBusy}
-                    className={[
-                      styles.continueButton,
-                      photos.length > 0 && !isBusy
-                        ? styles.continueActive
-                        : styles.continueDisabled,
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
+                    className={styles.continueButton}
                   >
                     <span>Continue →</span>
                   </button>
@@ -793,24 +799,57 @@ export function PhotoUpload() {
 
       {/* Delete Confirmation Modal */}
       {photoToDelete && (
-        <div className={styles.modalOverlay} role="dialog" aria-modal="true">
-          <div className={styles.modalContent}>
-            <h3 className={styles.modalTitle}>Delete this photo?</h3>
+        <div
+          className={styles.modalOverlay}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-photo-title"
+          onClick={() => setPhotoToDelete(null)}
+        >
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalIconCircle}>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7a.75.75 0 0 1 .75-.75Zm3.59 0a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7a.75.75 0 0 1 .75-.75Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+
+            <h3 id="delete-photo-title" className={styles.modalTitle}>
+              {photoToDelete.photoType === "PRIMARY"
+                ? "Delete Main Photo?"
+                : "Delete Photo?"}
+            </h3>
+
             <p className={styles.modalMessage}>
-              Are you sure you want to remove this photo? You can upload a new
-              photo anytime.
+              {photoToDelete.photoType === "PRIMARY" && photos.length > 1
+                ? "This is your main profile photo. Removing it will automatically promote your next photo to main."
+                : "Are you sure you want to remove this photo? You can upload a replacement anytime."}
             </p>
+
             <div className={styles.modalActions}>
               <button
                 type="button"
-                className={styles.modalCancelBtn}
+                className={styles.modalCancelButton}
                 onClick={() => setPhotoToDelete(null)}
+                autoFocus
               >
                 Cancel
               </button>
               <button
                 type="button"
-                className={styles.modalDeleteBtn}
+                className={styles.modalDeleteButton}
                 onClick={confirmDeletePhoto}
               >
                 Delete Photo

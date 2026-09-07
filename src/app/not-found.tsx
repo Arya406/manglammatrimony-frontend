@@ -8,23 +8,12 @@ import { useAuth } from "@/lib/auth/AuthContext";
 import styles from "./not-found.module.css";
 
 export default function NotFoundPage() {
-  const { authStatus, profileStatus } = useAuth();
+  const { authStatus } = useAuth();
 
   const isAuth = authStatus === "AUTHENTICATED";
-  const isActive = isAuth && profileStatus === "ACTIVE";
-  const isReview = isAuth && profileStatus === "IN_REVIEW";
 
-  const primaryHref = isActive
-    ? "/matches"
-    : isReview
-    ? "/onboarding/review"
-    : "/";
-
-  const primaryLabel = isActive
-    ? "Return to Matches"
-    : isReview
-    ? "View My Profile"
-    : "Back to Home";
+  const primaryHref = isAuth ? "/matches" : "/";
+  const primaryLabel = isAuth ? "Return to Matches" : "Back to Home";
 
   return (
     <div className={styles.pageContainer}>
@@ -64,7 +53,7 @@ export default function NotFoundPage() {
             </Link>
 
             <div className={styles.secondaryRow}>
-              {isActive && (
+              {isAuth && (
                 <Link href="/onboarding/review" className={styles.secondaryLink}>
                   My Profile
                 </Link>

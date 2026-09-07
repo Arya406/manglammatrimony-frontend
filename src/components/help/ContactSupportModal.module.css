@@ -23,10 +23,12 @@
 .modal {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: 20px;
   max-width: 500px;
   width: 100%;
-  padding: var(--space-8);
+  max-height: min(650px, calc(100dvh - 32px));
+  overflow-y: auto;
+  padding: clamp(20px, 5vw, 32px);
   box-shadow: 0 16px 48px rgba(123, 17, 35, 0.16);
   position: relative;
   animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -138,11 +140,13 @@
 }
 
 .closeAction {
-  padding: var(--space-3) var(--space-6);
+  padding: 0 var(--space-6);
+  min-height: 44px;
+  height: 44px;
   background-color: var(--color-maroon);
   color: #FFFFFF;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 10px;
   font-family: var(--font-bricolage);
   font-weight: 700;
   font-size: 0.9375rem;
@@ -154,4 +158,11 @@
 .closeAction:focus-visible {
   background-color: var(--color-maroon-dark);
   outline: none;
+}
+
+@media (max-width: 640px) {
+  .actionsGroup,
+  .closeAction {
+    width: 100%;
+  }
 }

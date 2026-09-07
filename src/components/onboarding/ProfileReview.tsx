@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CompleteProfileData } from "@/types/profile";
 import { getProfile, submitProfile, resolvePhotoUrl } from "@/lib/api/profile";
+import { useAuth } from "@/lib/auth/AuthContext";
 import { ApplicationUnderReviewModal } from "./ApplicationUnderReviewModal";
 import styles from "./ProfileReview.module.css";
 
@@ -105,6 +106,7 @@ function formatIncome(range?: string | null): string {
 
 export function ProfileReview() {
   const router = useRouter();
+  const { refreshAuth } = useAuth();
 
   const [profileData, setProfileData] = useState<CompleteProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,7 +130,7 @@ export function ProfileReview() {
         if (response.success && response.data) {
           setProfileData(response.data);
         } else if (!response.success && response.code === "UNAUTHORIZED") {
-          router.replace("/register");
+          router.replace("/login");
         }
       } catch (err) {
         console.error("Error loading profile review:", err);
@@ -165,20 +167,15 @@ export function ProfileReview() {
       if (!response.success) {
         if (response.code === "UNAUTHORIZED") {
           setServerError("Your session has expired. Please log in again.");
-          setTimeout(() => router.push("/register"), 1500);
+          setTimeout(() => router.push("/login"), 1500);
           return;
         }
 
-        if (response.code === "PROFILE_ALREADY_SUBMITTED") {
-          setIsReviewModalOpen(true);
-          const updatedRes = await getProfile();
-          if (updatedRes.success && updatedRes.data) {
-            setProfileData(updatedRes.data);
-          }
-          return;
-        }
-
-        if (response.code === "PROFILE_ALREADY_ACTIVE") {
+        if (
+          response.code === "PROFILE_ALREADY_SUBMITTED" ||
+          response.code === "PROFILE_ALREADY_ACTIVE"
+        ) {
+          await refreshAuth();
           router.push("/matches");
           return;
         }
@@ -202,12 +199,9 @@ export function ProfileReview() {
         return;
       }
 
-      // Successful submission: Show Application Under Review modal and refresh profile state
-      setIsReviewModalOpen(true);
-      const updatedRes = await getProfile();
-      if (updatedRes.success && updatedRes.data) {
-        setProfileData(updatedRes.data);
-      }
+      // Successful submission: Refresh authenticated profile state and navigate directly to /matches
+      await refreshAuth();
+      router.push("/matches");
     } catch (err) {
       console.error("Profile submission error:", err);
       setServerError("We couldn't submit your profile. Please try again.");
@@ -514,12 +508,14 @@ export function ProfileReview() {
                     "Not specified"}
                 </dd>
               </div>
-              <div className={styles.dataRow}>
-                <dt className={styles.dataLabel}>Gotra</dt>
-                <dd className={styles.dataValue}>
-                  {religion?.gotra?.name || "Not specified"}
-                </dd>
-              </div>
+              {religion?.religion?.slug === "hindu" && (
+                <div className={styles.dataRow}>
+                  <dt className={styles.dataLabel}>Gotra</dt>
+                  <dd className={styles.dataValue}>
+                    {religion?.gotra?.name || "Not specified"}
+                  </dd>
+                </div>
+              )}
               <div className={styles.dataRow}>
                 <dt className={styles.dataLabel}>Manglik</dt>
                 <dd className={styles.dataValue}>{formatManglik(religion?.manglik)}</dd>

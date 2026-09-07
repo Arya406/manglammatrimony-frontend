@@ -3,9 +3,10 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  height: 60px;
-  min-width: 155px;
-  padding: 8px 20px 8px 10px;
+  min-height: 54px;
+  height: auto;
+  min-width: 140px;
+  padding: 8px 18px 8px 10px;
   border-radius: var(--radius-full);
   background-color: #FAF1F3;
   border: 1px solid #E8D3D7;
@@ -14,6 +15,7 @@
   user-select: none;
   transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 1px 3px rgba(123, 17, 35, 0.04);
+  box-sizing: border-box;
 }
 
 .capsule:hover {
@@ -50,8 +52,8 @@
 }
 
 .iconCircle {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-full);
   background-color: #F5DFE4;
   display: flex;
@@ -66,12 +68,12 @@
 }
 
 .label {
-  font-family: var(--font-primary);
-  font-size: 15.5px;
+  font-family: var(--font-bricolage), 'Bricolage Grotesque', sans-serif;
+  font-size: 15px;
   font-weight: 500;
-  line-height: 1;
-  white-space: nowrap;
+  line-height: 1.2;
   letter-spacing: -0.01em;
+  overflow-wrap: normal;
 }
 
 .selected .label {
@@ -84,24 +86,31 @@
   align-items: center;
   justify-content: center;
   color: var(--color-surface);
-  margin-left: 2px;
+  margin-left: auto;
   flex-shrink: 0;
 }
 
 @media (max-width: 640px) {
   .capsule {
-    height: 52px;
-    min-width: 135px;
-    padding: 6px 16px 6px 8px;
+    min-height: 48px;
+    min-width: 125px;
+    padding: 6px 14px 6px 8px;
     gap: 10px;
   }
 
   .iconCircle {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
   }
 
   .label {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .capsule {
+    width: 100%;
+    min-width: 100%;
   }
 }
