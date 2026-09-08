@@ -1,12 +1,9 @@
 import { AuthHomeRedirect } from "@/components/auth/AuthHomeRedirect";
-import { Navbar } from "@/components/navbar/Navbar";
-import { Hero } from "@/components/hero/Hero";
-import { TrustStats } from "@/components/trust-stats/TrustStats";
+import { CinematicHero } from "@/components/hero/CinematicHero";
 import { HowItWorks } from "@/components/how-it-works/HowItWorks";
-import { WhyManglam } from "@/components/why-manglam/WhyManglam";
+import { Footer } from "@/components/footer/Footer";
 import { SuccessStories } from "@/components/success-stories/SuccessStories";
 import { FinalCta } from "@/components/final-cta/FinalCta";
-import { Footer } from "@/components/footer/Footer";
 
 export default function Home() {
   return (
@@ -14,30 +11,20 @@ export default function Home() {
       {/* Client-side guard: redirect logged-in users to /matches */}
       <AuthHomeRedirect />
 
-      {/* 1. Navbar */}
-      <Navbar />
-
       <main id="main-content">
-        {/* 2. Hero Section */}
-        <Hero />
+        {/* Full-viewport cinematic video hero with overlay header */}
+        <CinematicHero />
 
-        {/* 3. Trust / Statistics Section */}
-        <TrustStats />
-
-        {/* 4. How Manglam Works */}
+        {/* Start Your Journey Today — 4-Card Sequential Journey */}
         <HowItWorks />
 
-        {/* 5. Why Choose Manglam */}
-        <WhyManglam />
-
-        {/* 6. Success Stories */}
+        {/* Success Stories */}
         <SuccessStories />
 
-        {/* 7. Final CTA */}
-        <FinalCta />
+        <FinalCta/>
       </main>
 
-      {/* 8. Footer */}
+      {/* Footer */}
       <Footer />
     </>
   );

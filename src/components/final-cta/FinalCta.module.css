@@ -1,117 +1,305 @@
+/* ==========================================================================
+   Manglam Matrimony — Final CTA Section (Editorial Closing Chapter)
+   ========================================================================== */
+
 .section {
-  padding: 80px 0;
-  background-color: var(--color-background);
+  position: relative;
+  padding: 124px 0 132px 0;
+  background-color: var(--color-background, #FCFAF7);
+  overflow: hidden;
+  border-top: 1px solid rgba(197, 155, 39, 0.14);
+}
+
+/* Subtle Ornamental Edge Geometries */
+.edgeOrnament {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 260px;
+  height: 380px;
+  color: var(--color-gold, #C59B27);
+  opacity: 0.045;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.edgeOrnamentLeft {
+  left: -50px;
+}
+
+.edgeOrnamentRight {
+  right: -50px;
+}
+
+.edgeOrnament svg {
+  width: 100%;
+  height: 100%;
 }
 
 .container {
-  width: 100%;
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 var(--container-padding);
-}
-
-.ctaCard {
-  background: linear-gradient(135deg, #6E0D1E 0%, #4D0613 100%);
-  border-radius: var(--radius-lg);
-  padding: 64px 36px;
-  text-align: center;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 16px 40px rgba(110, 13, 30, 0.25);
   position: relative;
-  overflow: hidden;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--container-max, 1240px);
+  margin: 0 auto;
+  padding: 0 var(--container-padding, 24px);
 }
 
 .contentWrapper {
-  position: relative;
-  z-index: 2;
-  max-width: 640px;
+  max-width: 800px;
   margin: 0 auto;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.goldTag {
+/* Eyebrow */
+.goldEyebrow {
   font-family: var(--font-primary);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-gold-light);
-  margin-bottom: 12px;
-  display: block;
+  color: var(--color-gold, #C59B27);
+  margin-bottom: 16px;
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Headline */
 .headline {
   font-family: var(--font-primary);
-  font-size: 2.75rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1.2;
-  margin-bottom: 16px;
-  letter-spacing: -0.01em;
+  font-size: clamp(2.125rem, 4vw, 2.875rem);
+  font-weight: 650;
+  color: var(--color-maroon, #7B1123);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  margin: 0 0 20px 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1) 90ms,
+              transform 650ms cubic-bezier(0.16, 1, 0.3, 1) 90ms;
 }
 
+/* Subtle Gold Divider */
+.goldDivider {
+  width: 52px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent 0%, #C59B27 50%, transparent 100%);
+  margin: 0 auto 20px auto;
+  opacity: 0;
+  transform: scaleX(0.5);
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) 140ms,
+              transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 140ms;
+}
+
+/* Description */
 .description {
   font-family: var(--font-primary);
-  font-size: 1.0625rem;
+  font-size: clamp(1.0625rem, 1.8vw, 1.1875rem);
   font-weight: 400;
-  color: var(--color-rose-soft);
+  color: var(--color-text-secondary, #665256);
   line-height: 1.6;
-  margin-bottom: 32px;
+  max-width: 580px;
+  margin: 0 auto 36px auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) 180ms,
+              transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 180ms;
+}
+
+/* CTA Wrapper & Button */
+.ctaWrapper {
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) 270ms,
+              transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 270ms;
 }
 
 .primaryButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   height: 50px;
-  padding: 0 32px;
+  min-height: 48px;
+  padding: 0 34px;
+  background-color: var(--color-maroon, #7B1123);
+  color: #FFFFFF;
   font-family: var(--font-primary);
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-maroon);
-  background-color: #FFFFFF;
-  border: 1.5px solid #FFFFFF;
-  border-radius: var(--radius-sm);
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  transition: all var(--transition-fast);
-  margin-bottom: 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(197, 155, 39, 0.28);
+  box-shadow: 0 4px 18px rgba(123, 17, 35, 0.16);
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  user-select: none;
 }
 
 .primaryButton:hover {
-  background-color: var(--color-rose-soft);
+  background-color: #630C1B;
+  border-color: var(--color-gold, #C59B27);
+  box-shadow: 0 8px 24px rgba(123, 17, 35, 0.24),
+              0 0 0 1px rgba(197, 155, 39, 0.35);
   transform: translateY(-2px);
 }
 
-.reassuranceList {
-  display: flex;
+.primaryButton:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(123, 17, 35, 0.18);
+}
+
+.primaryButton:focus-visible {
+  outline: 2px solid var(--color-maroon, #7B1123);
+  outline-offset: 3px;
+}
+
+.buttonArrow {
+  font-size: 1.125rem;
+  line-height: 1;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.primaryButton:hover .buttonArrow {
+  transform: translateX(4px);
+}
+
+/* Micro Trust Line */
+.trustLine {
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 12px;
   font-family: var(--font-primary);
   font-size: 0.8125rem;
-  color: var(--color-gold-light);
-  font-weight: 400;
+  font-weight: 500;
+  color: #7E6F6F;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) 360ms,
+              transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 360ms;
 }
 
-.separator {
-  opacity: 0.5;
+.trustSeparator {
+  color: var(--color-gold, #C59B27);
+  font-size: 0.875rem;
+  opacity: 0.65;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .ctaCard {
-    padding: 44px 20px;
+/* Staggered Viewport Entrance */
+.sectionVisible .goldEyebrow,
+.sectionVisible .headline,
+.sectionVisible .description,
+.sectionVisible .ctaWrapper,
+.sectionVisible .trustLine {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sectionVisible .goldDivider {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .section {
+    padding: 100px 0 108px 0;
   }
+
+  .contentWrapper {
+    max-width: 680px;
+  }
+
+  .edgeOrnament {
+    width: 200px;
+    height: 300px;
+    opacity: 0.035;
+  }
+
+  .edgeOrnamentLeft {
+    left: -40px;
+  }
+
+  .edgeOrnamentRight {
+    right: -40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 80px 0 88px 0;
+  }
+
+  .contentWrapper {
+    max-width: 100%;
+  }
+
   .headline {
-    font-size: 2.125rem;
+    font-size: 1.875rem;
+    line-height: 1.25;
+    margin-bottom: 16px;
   }
-  .reassuranceList {
-    flex-direction: column;
-    gap: 4px;
+
+  .description {
+    font-size: 1rem;
+    margin-bottom: 28px;
+    padding: 0 4px;
   }
-  .separator {
-    display: none;
+
+  .primaryButton {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .edgeOrnament {
+    width: 150px;
+    height: 240px;
+    opacity: 0.025;
+  }
+
+  .edgeOrnamentLeft {
+    left: -50px;
+  }
+
+  .edgeOrnamentRight {
+    right: -50px;
+  }
+
+  .trustLine {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    font-size: 0.75rem;
+    max-width: 320px;
+    line-height: 1.5;
+  }
+}
+
+/* Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .goldEyebrow,
+  .headline,
+  .goldDivider,
+  .description,
+  .ctaWrapper,
+  .trustLine,
+  .primaryButton,
+  .buttonArrow {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .primaryButton:hover .buttonArrow {
+    transform: none !important;
   }
 }

@@ -9,9 +9,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Manglam Matrimony | Find Meaningful Connections",
-  description:
-    "Discover verified profiles aligned with your values, traditions, and modern aspirations. Built with privacy, dignity, and family trust at heart.",
+  title: "Manglam Matrimony",
+  description: "Meaningful connections, rooted in values, family and trust.",
   keywords: [
     "Matrimony",
     "Manglik Matrimony",
@@ -21,10 +20,16 @@ export const metadata: Metadata = {
     "Verified Profiles",
   ],
   authors: [{ name: "Manglam Matrimony" }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
+  },
   openGraph: {
-    title: "Manglam Matrimony | Find Meaningful Connections",
-    description:
-      "Discover verified profiles aligned with your values, traditions, and modern aspirations. Built with privacy, dignity, and family trust at heart.",
+    title: "Manglam Matrimony",
+    description: "Meaningful connections, rooted in values, family and trust.",
     type: "website",
     locale: "en_IN",
     siteName: "Manglam Matrimony",

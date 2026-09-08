@@ -1,7 +1,11 @@
+/* ==========================================================================
+   HowItWorks — Matrimonial Journey Cards & Cinematic Connection Animation
+   ========================================================================== */
+
 .section {
-  padding-top: 48px;
-  padding-bottom: 80px;
-  background-color: var(--color-background);
+  padding-top: 72px;
+  padding-bottom: 104px;
+  background-color: var(--color-background, #FDFBF7);
   position: relative;
   overflow: hidden;
 }
@@ -10,114 +14,1042 @@
   position: absolute;
   bottom: -60px;
   right: -60px;
-  width: 240px;
-  height: 240px;
-  opacity: 0.15;
-  color: var(--color-gold);
+  width: 260px;
+  height: 260px;
+  opacity: 0.18;
+  color: var(--color-gold, #C5A059);
   pointer-events: none;
   z-index: 1;
 }
 
 .container {
   width: 100%;
-  max-width: var(--container-max);
+  max-width: var(--container-max, 1280px);
   margin: 0 auto;
-  padding: 0 var(--container-padding);
+  padding: 0 24px;
   position: relative;
   z-index: 2;
 }
 
+/* ==========================================================================
+   Section Header (Preserved)
+   ========================================================================== */
 .header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 60px;
 }
 
 .goldTag {
   font-family: var(--font-primary);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-gold);
-  margin-bottom: 8px;
+  color: var(--color-gold, #C5A059);
+  margin-bottom: 12px;
   display: block;
 }
 
 .title {
   font-family: var(--font-primary);
-  font-size: 2.25rem;
+  font-size: 2.375rem;
   font-weight: 600;
-  color: var(--color-maroon);
-  margin-bottom: 8px;
+  color: var(--color-maroon, #4A0E1C);
+  margin-bottom: 12px;
   letter-spacing: -0.01em;
 }
 
 .subtitle {
   font-family: var(--font-primary);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 400;
-  color: var(--color-text-secondary);
+  color: var(--color-text-secondary, #665256);
 }
 
-.stepsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-bottom: 48px;
-}
-
-.card {
-  background: #FFFFFF;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 36px 20px 28px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-rose-light);
-}
-
-.iconCircle {
-  width: 58px;
-  height: 58px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-rose-soft);
-  color: var(--color-maroon);
+/* ==========================================================================
+   Desktop Layout (>1024px)
+   ========================================================================== */
+.desktopJourney {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  transition: transform var(--transition-fast);
+  margin-bottom: 60px;
+  width: 100%;
+  position: relative;
 }
 
-.card:hover .iconCircle {
-  transform: scale(1.05);
+.tabletJourney {
+  display: none;
+}
+
+.mobileJourney {
+  display: none;
+}
+
+/* ==========================================================================
+   Card Styling (~268px width on standard desktop, ~450px height)
+   ========================================================================== */
+.card {
+  width: 268px;
+  height: 450px;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(197, 160, 89, 0.22);
+  border-radius: 20px;
+  box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 2;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Intermediate Desktop (1024px - 1239px) to ensure all 4 cards fit horizontally without clipping */
+@media (min-width: 1024px) and (max-width: 1239px) {
+  .card {
+    width: 218px;
+    height: 440px;
+  }
+  .stepTitle {
+    font-size: 1.125rem !important;
+  }
+  .stepDescription {
+    font-size: 0.8125rem !important;
+  }
+  .connectorDesktop {
+    width: 28px !important;
+  }
+}
+
+/* TOP ~30% IMAGE AREA (135px height) */
+.imageWrapper {
+  height: 135px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #F5EFEB;
+  border-top-left-radius: 18.5px;
+  border-top-right-radius: 18.5px;
+}
+
+.cardImage {
+  object-fit: cover;
+  object-position: center 25%;
+  filter: brightness(0.92) contrast(0.98);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.6s ease;
+}
+
+.card:hover .cardImage {
+  transform: scale(1.04);
+  filter: brightness(1.02);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(74, 14, 28, 0) 45%, rgba(74, 14, 28, 0.16) 100%);
+  pointer-events: none;
+  transition: background 0.6s ease;
+}
+
+/* BOTTOM ~70% EDITORIAL CONTENT (315px height) */
+.cardContent {
+  height: 315px;
+  padding: 24px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #FFFFFF;
+}
+
+.contentTop {
+  display: flex;
+  flex-direction: column;
+}
+
+.numberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.stepNumber {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(197, 160, 89, 0.75);
+  display: inline-block;
+  transition: color 0.6s ease, text-shadow 0.6s ease, opacity 0.6s ease;
+}
+
+.activeBeacon {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #D4AF37;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
 }
 
 .stepTitle {
   font-family: var(--font-primary);
-  font-size: 1.0625rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 8px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-maroon, #4A0E1C);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  transition: color 0.6s ease;
 }
 
 .stepDescription {
   font-family: var(--font-primary);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 400;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
+  line-height: 1.52;
+  color: var(--color-text-secondary, #665256);
 }
 
+.arrowWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: var(--color-maroon, #4A0E1C);
+  transition: transform 0.3s ease;
+}
+
+.card:hover .arrowWrapper {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   DESKTOP CONNECTOR (Behind cards, running through gap)
+   ========================================================================== */
+.connectorDesktop {
+  position: relative;
+  width: 48px;
+  height: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.connectorTrack {
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(197, 160, 89, 0.22), rgba(197, 160, 89, 0.42), rgba(197, 160, 89, 0.22));
+  box-shadow: 0 0 4px rgba(197, 160, 89, 0.2);
+  border-radius: 999px;
+}
+
+/* Luminous Concentrated Traveling Light Beam with Radiant Star Core */
+.connectorPulse {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 8px;
+  width: 26px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(107, 15, 36, 0) 0%, rgba(212, 175, 55, 0.9) 20%, #FFFFFF 50%, rgba(212, 175, 55, 0.9) 80%, rgba(107, 15, 36, 0) 100%);
+  box-shadow: 0 0 12px 3px rgba(255, 245, 214, 1),
+              0 0 20px 5px rgba(212, 175, 55, 0.95),
+              0 0 35px 8px rgba(107, 15, 36, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sparkleIcon {
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 0 0 6px #FFE57F, 0 0 14px #FFD700;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* ==========================================================================
+   SEQUENTIAL ANIMATION (12-Second Master Cycle)
+   0.0s – 2.5s   (0% - 20.8%)   : Card 01 active
+   2.5s – 3.5s   (20.8% - 29.2%): Pulse travels 01 -> 02, Card 01 dims, Card 02 kindles
+   3.5s – 6.0s   (29.2% - 50.0%): Card 02 active
+   6.0s – 7.0s   (50.0% - 58.3%): Pulse travels 02 -> 03, Card 02 dims, Card 03 kindles
+   7.0s – 9.5s   (58.3% - 79.2%): Card 03 active
+   9.5s – 10.5s  (79.2% - 87.5%): Pulse travels 03 -> 04, Card 03 dims, Card 04 kindles
+   10.5s – 11.5s (87.5% - 95.8%): Card 04 active
+   11.5s – 12.0s (95.8% - 100%) : Card 04 smoothly cross-fades to Card 01 (zero flash / seamless loop)
+   ========================================================================== */
+
+/* Active Card Auras */
+.card1 {
+  animation: cardGlow1 12s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card2 {
+  animation: cardGlow2 12s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card3 {
+  animation: cardGlow3 12s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card4 {
+  animation: cardGlow4 12s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Active Card Images */
+.card1 .cardImage {
+  animation: imageGlow1 12s infinite ease-in-out;
+}
+
+.card2 .cardImage {
+  animation: imageGlow2 12s infinite ease-in-out;
+}
+
+.card3 .cardImage {
+  animation: imageGlow3 12s infinite ease-in-out;
+}
+
+.card4 .cardImage {
+  animation: imageGlow4 12s infinite ease-in-out;
+}
+
+/* Active Step Numbers */
+.card1 .stepNumber {
+  animation: numberGlow1 12s infinite ease-in-out;
+}
+
+.card2 .stepNumber {
+  animation: numberGlow2 12s infinite ease-in-out;
+}
+
+.card3 .stepNumber {
+  animation: numberGlow3 12s infinite ease-in-out;
+}
+
+.card4 .stepNumber {
+  animation: numberGlow4 12s infinite ease-in-out;
+}
+
+/* Active Beacons */
+.beacon1 {
+  animation: beaconGlow1 12s infinite ease-in-out;
+}
+
+.beacon2 {
+  animation: beaconGlow2 12s infinite ease-in-out;
+}
+
+.beacon3 {
+  animation: beaconGlow3 12s infinite ease-in-out;
+}
+
+.beacon4 {
+  animation: beaconGlow4 12s infinite ease-in-out;
+}
+
+/* Traveling Desktop Pulses */
+.pulseDesktop1 {
+  animation: pulseTravelH1 12s infinite linear;
+}
+
+.pulseDesktop2 {
+  animation: pulseTravelH2 12s infinite linear;
+}
+
+.pulseDesktop3 {
+  animation: pulseTravelH3 12s infinite linear;
+}
+
+/* ==========================================================================
+   KEYFRAMES: CARD 01
+   ========================================================================== */
+@keyframes cardGlow1 {
+  0%, 20.8% {
+    border-color: rgba(212, 175, 55, 0.85);
+    box-shadow: 
+      0 0 0 1.5px rgba(212, 175, 55, 0.75),
+      0 14px 34px -6px rgba(74, 14, 28, 0.25),
+      0 0 32px 4px rgba(197, 160, 89, 0.40),
+      0 20px 65px -10px rgba(107, 15, 36, 0.20),
+      0 0 60px 12px rgba(212, 175, 55, 0.18);
+    transform: translateY(-5px);
+  }
+  29.2%, 95.8% {
+    border-color: rgba(197, 160, 89, 0.22);
+    box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+    transform: translateY(0);
+  }
+  100% {
+    border-color: rgba(212, 175, 55, 0.85);
+    box-shadow: 
+      0 0 0 1.5px rgba(212, 175, 55, 0.75),
+      0 14px 34px -6px rgba(74, 14, 28, 0.25),
+      0 0 32px 4px rgba(197, 160, 89, 0.40),
+      0 20px 65px -10px rgba(107, 15, 36, 0.20),
+      0 0 60px 12px rgba(212, 175, 55, 0.18);
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes imageGlow1 {
+  0%, 20.8% {
+    filter: brightness(1.05) contrast(1.02);
+    transform: scale(1.025);
+  }
+  29.2%, 95.8% {
+    filter: brightness(0.92) contrast(0.98);
+    transform: scale(1);
+  }
+  100% {
+    filter: brightness(1.05) contrast(1.02);
+    transform: scale(1.025);
+  }
+}
+
+@keyframes numberGlow1 {
+  0%, 20.8% {
+    color: #D4AF37;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.75), 0 0 20px rgba(212, 175, 55, 0.35);
+    opacity: 1;
+    font-weight: 700;
+  }
+  29.2%, 95.8% {
+    color: rgba(197, 160, 89, 0.75);
+    text-shadow: none;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+  100% {
+    color: #D4AF37;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.75), 0 0 20px rgba(212, 175, 55, 0.35);
+    opacity: 1;
+    font-weight: 700;
+  }
+}
+
+@keyframes beaconGlow1 {
+  0%, 20.8% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.85);
+  }
+  29.2%, 95.8% {
+    opacity: 0;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.85);
+  }
+}
+
+/* Horizontal Pulse 1 (Leaves Card 1 at 20.8%, streaks across gap, arrives at Card 2 at 29.2%) */
+@keyframes pulseTravelH1 {
+  0%, 20.6% {
+    transform: translateY(-50%) translateX(-22px);
+    opacity: 0;
+  }
+  20.8% {
+    transform: translateY(-50%) translateX(-20px);
+    opacity: 1;
+  }
+  28.8% {
+    transform: translateY(-50%) translateX(42px);
+    opacity: 1;
+  }
+  29.2%, 100% {
+    transform: translateY(-50%) translateX(48px);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   KEYFRAMES: CARD 02
+   ========================================================================== */
+@keyframes cardGlow2 {
+  0%, 23% {
+    border-color: rgba(197, 160, 89, 0.22);
+    box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+    transform: translateY(0);
+  }
+  29.2%, 50.0% {
+    border-color: rgba(212, 175, 55, 0.85);
+    box-shadow: 
+      0 0 0 1.5px rgba(212, 175, 55, 0.75),
+      0 14px 34px -6px rgba(74, 14, 28, 0.25),
+      0 0 32px 4px rgba(197, 160, 89, 0.40),
+      0 20px 65px -10px rgba(107, 15, 36, 0.20),
+      0 0 60px 12px rgba(212, 175, 55, 0.18);
+    transform: translateY(-5px);
+  }
+  58.3%, 100% {
+    border-color: rgba(197, 160, 89, 0.22);
+    box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+    transform: translateY(0);
+  }
+}
+
+@keyframes imageGlow2 {
+  0%, 23% {
+    filter: brightness(0.92) contrast(0.98);
+    transform: scale(1);
+  }
+  29.2%, 50.0% {
+    filter: brightness(1.05) contrast(1.02);
+    transform: scale(1.025);
+  }
+  58.3%, 100% {
+    filter: brightness(0.92) contrast(0.98);
+    transform: scale(1);
+  }
+}
+
+@keyframes numberGlow2 {
+  0%, 23% {
+    color: rgba(197, 160, 89, 0.75);
+    text-shadow: none;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+  29.2%, 50.0% {
+    color: #D4AF37;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.75), 0 0 20px rgba(212, 175, 55, 0.35);
+    opacity: 1;
+    font-weight: 700;
+  }
+  58.3%, 100% {
+    color: rgba(197, 160, 89, 0.75);
+    text-shadow: none;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+}
+
+@keyframes beaconGlow2 {
+  0%, 23% {
+    opacity: 0;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+  29.2%, 50.0% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.85);
+  }
+  58.3%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+}
+
+/* Horizontal Pulse 2 (Leaves Card 2 at 50.0%, streaks across gap, arrives at Card 3 at 58.3%) */
+@keyframes pulseTravelH2 {
+  0%, 49.8% {
+    transform: translateY(-50%) translateX(-22px);
+    opacity: 0;
+  }
+  50.0% {
+    transform: translateY(-50%) translateX(-20px);
+    opacity: 1;
+  }
+  57.9% {
+    transform: translateY(-50%) translateX(42px);
+    opacity: 1;
+  }
+  58.3%, 100% {
+    transform: translateY(-50%) translateX(48px);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   KEYFRAMES: CARD 03
+   ========================================================================== */
+@keyframes cardGlow3 {
+  0%, 52% {
+    border-color: rgba(197, 160, 89, 0.22);
+    box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+    transform: translateY(0);
+  }
+  58.3%, 79.2% {
+    border-color: rgba(212, 175, 55, 0.85);
+    box-shadow: 
+      0 0 0 1.5px rgba(212, 175, 55, 0.75),
+      0 14px 34px -6px rgba(74, 14, 28, 0.25),
+      0 0 32px 4px rgba(197, 160, 89, 0.40),
+      0 20px 65px -10px rgba(107, 15, 36, 0.20),
+      0 0 60px 12px rgba(212, 175, 55, 0.18);
+    transform: translateY(-5px);
+  }
+  87.5%, 100% {
+    border-color: rgba(197, 160, 89, 0.22);
+    box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+    transform: translateY(0);
+  }
+}
+
+@keyframes imageGlow3 {
+  0%, 52% {
+    filter: brightness(0.92) contrast(0.98);
+    transform: scale(1);
+  }
+  58.3%, 79.2% {
+    filter: brightness(1.05) contrast(1.02);
+    transform: scale(1.025);
+  }
+  87.5%, 100% {
+    filter: brightness(0.92) contrast(0.98);
+    transform: scale(1);
+  }
+}
+
+@keyframes numberGlow3 {
+  0%, 52% {
+    color: rgba(197, 160, 89, 0.75);
+    text-shadow: none;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+  58.3%, 79.2% {
+    color: #D4AF37;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.75), 0 0 20px rgba(212, 175, 55, 0.35);
+    opacity: 1;
+    font-weight: 700;
+  }
+  87.5%, 100% {
+    color: rgba(197, 160, 89, 0.75);
+    text-shadow: none;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+}
+
+@keyframes beaconGlow3 {
+  0%, 52% {
+    opacity: 0;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+  58.3%, 79.2% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.85);
+  }
+  87.5%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+}
+
+/* Horizontal Pulse 3 (Leaves Card 3 at 79.2%, streaks across gap, arrives at Card 4 at 87.5%) */
+@keyframes pulseTravelH3 {
+  0%, 79.0% {
+    transform: translateY(-50%) translateX(-22px);
+    opacity: 0;
+  }
+  79.2% {
+    transform: translateY(-50%) translateX(-20px);
+    opacity: 1;
+  }
+  87.1% {
+    transform: translateY(-50%) translateX(42px);
+    opacity: 1;
+  }
+  87.5%, 100% {
+    transform: translateY(-50%) translateX(48px);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   KEYFRAMES: CARD 04
+   ========================================================================== */
+@keyframes cardGlow4 {
+  0%, 81% {
+    border-color: rgba(197, 160, 89, 0.22);
+    box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+    transform: translateY(0);
+  }
+  87.5%, 95.8% {
+    border-color: rgba(212, 175, 55, 0.85);
+    box-shadow: 
+      0 0 0 1.5px rgba(212, 175, 55, 0.75),
+      0 14px 34px -6px rgba(74, 14, 28, 0.25),
+      0 0 32px 4px rgba(197, 160, 89, 0.40),
+      0 20px 65px -10px rgba(107, 15, 36, 0.20),
+      0 0 60px 12px rgba(212, 175, 55, 0.18);
+    transform: translateY(-5px);
+  }
+  100% {
+    border-color: rgba(197, 160, 89, 0.22);
+    box-shadow: 0 6px 24px rgba(74, 14, 28, 0.05);
+    transform: translateY(0);
+  }
+}
+
+@keyframes imageGlow4 {
+  0%, 81% {
+    filter: brightness(0.92) contrast(0.98);
+    transform: scale(1);
+  }
+  87.5%, 95.8% {
+    filter: brightness(1.05) contrast(1.02);
+    transform: scale(1.025);
+  }
+  100% {
+    filter: brightness(0.92) contrast(0.98);
+    transform: scale(1);
+  }
+}
+
+@keyframes numberGlow4 {
+  0%, 81% {
+    color: rgba(197, 160, 89, 0.75);
+    text-shadow: none;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+  87.5%, 95.8% {
+    color: #D4AF37;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.75), 0 0 20px rgba(212, 175, 55, 0.35);
+    opacity: 1;
+    font-weight: 700;
+  }
+  100% {
+    color: rgba(197, 160, 89, 0.75);
+    text-shadow: none;
+    opacity: 0.75;
+    font-weight: 600;
+  }
+}
+
+@keyframes beaconGlow4 {
+  0%, 81% {
+    opacity: 0;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+  87.5%, 95.8% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.85);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+}
+
+/* ==========================================================================
+   TABLET 2x2 LAYOUT (768px - 1023px)
+   01 -> 02
+        | (vertical downwards)
+   04 <- 03
+   ========================================================================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .desktopJourney {
+    display: none;
+  }
+
+  .tabletJourney {
+    display: grid;
+    grid-template-columns: 280px 56px 280px;
+    grid-template-rows: auto 56px auto;
+    grid-template-areas:
+      "c1 t1 c2"
+      ".  .  t2"
+      "c4 t3 c3";
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 60px;
+  }
+
+  .tabletCardWrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .tabletCardWrapper .card {
+    width: 280px;
+    height: 440px;
+  }
+
+  .connectorTabletH {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  .connectorTabletV {
+    position: relative;
+    width: 8px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .connectorTrackV {
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(197, 160, 89, 0.22), rgba(197, 160, 89, 0.42), rgba(197, 160, 89, 0.22));
+    box-shadow: 0 0 4px rgba(197, 160, 89, 0.2);
+    border-radius: 999px;
+  }
+
+  .connectorPulseV {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 26px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(107, 15, 36, 0) 0%, rgba(212, 175, 55, 0.9) 20%, #FFFFFF 50%, rgba(212, 175, 55, 0.9) 80%, rgba(107, 15, 36, 0) 100%);
+    box-shadow: 0 0 12px 3px rgba(255, 245, 214, 1),
+                0 0 20px 5px rgba(212, 175, 55, 0.95),
+                0 0 35px 8px rgba(107, 15, 36, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sparkleIconV {
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-shadow: 0 0 6px #FFE57F, 0 0 14px #FFD700;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  /* Tablet Vertical Pulse (02 -> 03 downwards at 50.0% to 58.3%) */
+  .pulseTabletV {
+    animation: pulseTravelTabletV 12s infinite linear;
+  }
+
+  /* Tablet Horizontal Leftwards Pulse (03 -> 04 leftwards at 79.2% to 87.5%) */
+  .pulseTabletLeft {
+    animation: pulseTravelTabletLeft 12s infinite linear;
+  }
+}
+
+/* Tablet Vertical Downwards Animation */
+@keyframes pulseTravelTabletV {
+  0%, 49.8% {
+    transform: translateX(-50%) translateY(-22px);
+    opacity: 0;
+  }
+  50.0% {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 1;
+  }
+  57.9% {
+    transform: translateX(-50%) translateY(50px);
+    opacity: 1;
+  }
+  58.3%, 100% {
+    transform: translateX(-50%) translateY(56px);
+    opacity: 0;
+  }
+}
+
+/* Tablet Horizontal Leftwards Animation (Right to Left: 03 -> 04) */
+@keyframes pulseTravelTabletLeft {
+  0%, 79.0% {
+    transform: translateY(-50%) translateX(48px);
+    opacity: 0;
+  }
+  79.2% {
+    transform: translateY(-50%) translateX(44px);
+    opacity: 1;
+  }
+  87.1% {
+    transform: translateY(-50%) translateX(-18px);
+    opacity: 1;
+  }
+  87.5%, 100% {
+    transform: translateY(-50%) translateX(-24px);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   MOBILE VERTICAL STACK (<= 767px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .desktopJourney {
+    display: none;
+  }
+
+  .tabletJourney {
+    display: none;
+  }
+
+  .mobileJourney {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 52px;
+  }
+
+  .mobileJourney .card {
+    width: 100%;
+    max-width: 350px;
+    height: 440px;
+  }
+
+  .connectorMobile {
+    position: relative;
+    width: 8px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px 0;
+  }
+
+  .connectorTrackV {
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(197, 160, 89, 0.22), rgba(197, 160, 89, 0.42), rgba(197, 160, 89, 0.22));
+    box-shadow: 0 0 4px rgba(197, 160, 89, 0.2);
+    border-radius: 999px;
+  }
+
+  .connectorPulseV {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 24px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(107, 15, 36, 0) 0%, rgba(212, 175, 55, 0.9) 20%, #FFFFFF 50%, rgba(212, 175, 55, 0.9) 80%, rgba(107, 15, 36, 0) 100%);
+    box-shadow: 0 0 12px 3px rgba(255, 245, 214, 1),
+                0 0 20px 5px rgba(212, 175, 55, 0.95),
+                0 0 35px 8px rgba(107, 15, 36, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sparkleIconV {
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-shadow: 0 0 6px #FFE57F, 0 0 14px #FFD700;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  .pulseMobile1 {
+    animation: pulseTravelMobile1 12s infinite linear;
+  }
+
+  .pulseMobile2 {
+    animation: pulseTravelMobile2 12s infinite linear;
+  }
+
+  .pulseMobile3 {
+    animation: pulseTravelMobile3 12s infinite linear;
+  }
+
+  .title {
+    font-size: 1.875rem;
+  }
+}
+
+/* Mobile Vertical Pulse 1 (01 -> 02 at 20.8% to 29.2%) */
+@keyframes pulseTravelMobile1 {
+  0%, 20.6% {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+  20.8% {
+    transform: translateX(-50%) translateY(-18px);
+    opacity: 1;
+  }
+  28.8% {
+    transform: translateX(-50%) translateY(40px);
+    opacity: 1;
+  }
+  29.2%, 100% {
+    transform: translateX(-50%) translateY(46px);
+    opacity: 0;
+  }
+}
+
+/* Mobile Vertical Pulse 2 (02 -> 03 at 50.0% to 58.3%) */
+@keyframes pulseTravelMobile2 {
+  0%, 49.8% {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+  50.0% {
+    transform: translateX(-50%) translateY(-18px);
+    opacity: 1;
+  }
+  57.9% {
+    transform: translateX(-50%) translateY(40px);
+    opacity: 1;
+  }
+  58.3%, 100% {
+    transform: translateX(-50%) translateY(46px);
+    opacity: 0;
+  }
+}
+
+/* Mobile Vertical Pulse 3 (03 -> 04 at 79.2% to 87.5%) */
+@keyframes pulseTravelMobile3 {
+  0%, 79.0% {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+  79.2% {
+    transform: translateX(-50%) translateY(-18px);
+    opacity: 1;
+  }
+  87.1% {
+    transform: translateX(-50%) translateY(40px);
+    opacity: 1;
+  }
+  87.5%, 100% {
+    transform: translateX(-50%) translateY(46px);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Centered CTA Button (Preserved)
+   ========================================================================== */
 .ctaWrapper {
   display: flex;
   justify-content: center;
@@ -127,41 +1059,72 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  padding: 0 28px;
+  height: 48px;
+  padding: 0 32px;
   font-family: var(--font-primary);
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--color-maroon);
+  color: var(--color-maroon, #4A0E1C);
   background-color: #FFFFFF;
-  border: 1.5px solid var(--color-maroon);
-  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-maroon, #4A0E1C);
+  border-radius: var(--radius-sm, 8px);
   text-decoration: none;
-  transition: all var(--transition-fast);
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(74, 14, 28, 0.04);
 }
 
 .moreButton:hover {
-  background-color: var(--color-rose-soft);
+  background-color: var(--color-rose-soft, #FAF4F5);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 14, 28, 0.08);
 }
 
-/* Responsive */
-@media (max-width: 960px) {
-  .stepsGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+/* ==========================================================================
+   Accessibility & Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card1,
+  .card2,
+  .card3,
+  .card4,
+  .cardImage,
+  .stepNumber,
+  .activeBeacon {
+    animation: none !important;
+    transform: none !important;
   }
-  .title {
-    font-size: 1.875rem;
-  }
-}
 
-@media (max-width: 540px) {
-  .stepsGrid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .card1 {
+    /* Subtle static accent state for card 1 */
+    border-color: rgba(212, 175, 55, 0.75);
+    box-shadow: 0 10px 30px rgba(74, 14, 28, 0.12), 0 0 20px rgba(197, 160, 89, 0.3);
   }
-  .title {
-    font-size: 1.625rem;
+
+  .card1 .stepNumber {
+    color: #D4AF37;
+    font-weight: 700;
+  }
+
+  .card1 .cardImage {
+    filter: brightness(1.02);
+  }
+
+  .connectorPulse,
+  .connectorPulseV {
+    display: none !important;
+    animation: none !important;
+  }
+
+  .card:hover {
+    transform: none !important;
+  }
+
+  .cardImage {
+    transition: none !important;
+  }
+
+  .card:hover .cardImage {
+    transform: none !important;
   }
 }
