@@ -1,0 +1,136 @@
+/* ==========================================================================
+   Modal.module.css
+   Manglam Matrimony — Shared Modal Foundation Primitives
+   Centered desktop modal, adaptive mobile bottom-sheet/full-width, blur backdrop.
+   ========================================================================== */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(28, 21, 23, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 1000;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-modal);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 640px;
+  max-height: min(88vh, calc(100dvh - 32px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-background);
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: var(--text-section-title);
+  font-weight: 700;
+  color: var(--color-maroon);
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-family: var(--font-primary);
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.body {
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.closeButton {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  border: none;
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background-color: var(--color-rose-soft);
+  color: var(--color-maroon);
+}
+
+@media (max-width: 767px) {
+  .backdrop {
+    padding: var(--space-2);
+    align-items: flex-end;
+  }
+
+  .container {
+    max-width: 100%;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+    max-height: calc(100dvh - 16px);
+  }
+
+  .header,
+  .body,
+  .footer {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+}

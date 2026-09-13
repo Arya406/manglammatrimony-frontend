@@ -3,8 +3,9 @@ import Link from "next/link";
 import styles from "./Button.module.css";
 
 interface ButtonProps {
+  id?: string;
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "text" | "gold" | "danger";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "text" | "gold" | "danger";
   size?: "sm" | "md" | "lg";
   href?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
@@ -18,6 +19,7 @@ interface ButtonProps {
 }
 
 export function Button({
+  id,
   children,
   variant = "primary",
   size = "md",
@@ -52,6 +54,7 @@ export function Button({
   if (href) {
     return (
       <Link
+        id={id}
         href={href}
         className={buttonClasses}
         onClick={onClick}
@@ -65,6 +68,7 @@ export function Button({
 
   return (
     <button
+      id={id}
       type={type}
       className={buttonClasses}
       onClick={onClick}

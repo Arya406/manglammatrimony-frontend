@@ -180,6 +180,70 @@ export async function resendLoginOtp(
   }
 }
 
+/**
+ * Public endpoint: requests an activation OTP for an unverified account.
+ */
+export async function requestActivationOtp(
+  email: string
+): Promise<ApiResponse<RequestOtpData>> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/auth/activation/request-otp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("[API ERROR - requestActivationOtp]:", error);
+    return {
+      success: false,
+      code: "NETWORK_ERROR",
+      message:
+        "Unable to connect to the server. Please check your internet connection and try again.",
+    };
+  }
+}
+
+/**
+ * Public endpoint: verifies activation OTP, claims account ownership, and receives normal USER session.
+ */
+export async function verifyActivationOtp(params: {
+  email?: string;
+  verificationId?: string;
+  otp: string;
+}): Promise<ApiResponse<VerifyOtpData>> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/auth/activation/verify-otp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("[API ERROR - verifyActivationOtp]:", error);
+    return {
+      success: false,
+      code: "NETWORK_ERROR",
+      message:
+        "Unable to connect to the server. Please check your internet connection and try again.",
+    };
+  }
+}
+
 // Re-export session storage and token management utilities
 export {
   AUTH_TOKEN_KEY,

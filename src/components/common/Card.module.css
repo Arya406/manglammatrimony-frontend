@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Card.module.css
+   Manglam Matrimony — Shared Card System Primitives
+   Restrained borders, subtle elevation, warm brand ivory highlights.
+   ========================================================================== */
+
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-subtle);
+  overflow: hidden;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+  box-sizing: border-box;
+}
+
+.interactive:hover {
+  border-color: rgba(123, 17, 35, 0.25);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+.cardHeader {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.cardBody {
+  padding: var(--space-6);
+}
+
+.cardFooter {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-background);
+}
+
+@media (max-width: 767px) {
+  .cardHeader,
+  .cardBody,
+  .cardFooter {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+}

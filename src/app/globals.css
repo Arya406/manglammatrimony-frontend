@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Manglam Matrimony — Global Design Tokens & Styles
+   Manglam Matrimony — Global Design Tokens & Foundation Stylesheet
    Primary Brand: Deep Maroon (#7B1123), Gold (#C59B27), Warm Ivory (#FCFAF7),
    Soft Rose (#FAF1F3).
    Primary Typography: Bricolage Grotesque throughout.
@@ -8,56 +8,99 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-  /* Brand Color Palette */
+  /* ==========================================================================
+     1. Brand Color Palette
+     ========================================================================== */
+  /* Primary Maroon */
   --color-maroon: #7B1123;
   --color-maroon-dark: #5E0D1B;
   --color-maroon-deep: #450712;
-  --color-primary-glow: rgba(123, 17, 35, 0.2);
+  --color-primary-glow: rgba(123, 17, 35, 0.18);
 
+  /* Gold Accents */
+  --color-gold: #C59B27;
+  --color-gold-light: #F3E8C8;
+  --color-gold-hover: #A8811A;
+
+  /* Warm Ivory Surfaces */
+  --color-background: #FCFAF7;
+  --color-ivory: #FAF7F2;
+  --color-warm: #F6F1EA;
+  --color-surface: #FFFFFF;
+
+  /* Soft Rose Accents */
   --color-rose: #C44265;
   --color-rose-light: #F7D6DE;
   --color-rose-soft: #FAF1F3;
   --color-rose-subtle: #FDF2F4;
 
-  --color-ivory: #FAF7F2;
-  --color-background: #FCFAF7;
-  --color-surface: #FFFFFF;
-  --color-warm: #F6F1EA;
-
-  --color-gold: #C59B27;
-  --color-gold-light: #F3E8C8;
-  --color-gold-hover: #A8811A;
-
-  --color-text-primary: #1C1517;
+  /* Neutral & Text Colors */
+  --color-text-primary: #2E2527;
   --color-text-secondary: #5A4E51;
-  --color-text-muted: #7E6F6F;
+  --color-text-muted: #8C7D81;
   --color-text-inverse: #FFFFFF;
+  --color-text-deep: #1C1517;
 
+  /* Borders & Focus */
   --color-border: #EFE8E9;
   --color-border-light: #F7F0F1;
+  --color-border-strong: rgba(46, 37, 39, 0.12);
   --color-border-focus: #7B1123;
-  --color-focus-ring: rgba(123, 17, 35, 0.25);
+  --color-focus-ring: rgba(123, 17, 35, 0.20);
 
-  /* Typography — Bricolage Grotesque is the primary matrimonial font */
+  /* Semantic Palettes (Restrained & Harmonized) */
+  --color-success: #059669;
+  --color-success-surface: #ECFDF5;
+  --color-success-border: #A7F3D0;
+
+  --color-warning: #D97706;
+  --color-warning-surface: #FFFBEB;
+  --color-warning-border: #FDE68A;
+
+  --color-danger: #DC2626;
+  --color-danger-surface: #FEF2F2;
+  --color-danger-border: #FECACA;
+
+  --color-info: #2563EB;
+  --color-info-surface: #EFF6FF;
+  --color-info-border: #BFDBFE;
+
+  --color-neutral: #5A4E51;
+  --color-neutral-surface: #F6F1EA;
+  --color-neutral-border: #EFE8E9;
+
+  /* ==========================================================================
+     2. Typography Tokens
+     ========================================================================== */
   --font-primary: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-bricolage: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
-  /* Typography Scale */
-  --text-display: clamp(1.75rem, 4vw, 2.375rem); /* 28px – 38px */
-  --text-heading: clamp(1.25rem, 2.5vw, 1.625rem); /* 20px – 26px */
-  --text-subheading: clamp(0.9375rem, 1.5vw, 1.125rem); /* 15px – 18px */
+  /* Semantic Typography Scale */
+  --text-display: clamp(2.25rem, 4vw, 2.75rem); /* 36px – 44px */
+  --text-page-title: clamp(1.75rem, 2.5vw, 2rem); /* 28px – 32px */
+  --text-section-title: clamp(1.25rem, 1.8vw, 1.5rem); /* 20px – 24px */
+  --text-card-title: 1.125rem; /* 18px */
+  --text-heading: clamp(1.25rem, 2.5vw, 1.625rem); /* 20px – 26px (legacy alias) */
+  --text-subheading: clamp(0.9375rem, 1.5vw, 1.125rem); /* 15px – 18px (legacy alias) */
   --text-body: 0.9375rem; /* 15px */
+  --text-body-sm: 0.875rem; /* 14px */
+  --text-secondary: 0.8125rem; /* 13px */
   --text-label: 0.8125rem; /* 13px */
   --text-caption: 0.75rem; /* 12px */
 
-  /* Standard Control Heights */
+  /* ==========================================================================
+     3. Standard Control Heights & Touch Dimensions
+     ========================================================================== */
   --control-height-lg: 48px;
   --control-height-md: 44px;
   --control-height-sm: 38px;
   --control-touch-min: 44px;
+  --touch-target-min: 44px;
 
-  /* Spacing Scale */
+  /* ==========================================================================
+     4. Spacing Scale (4px/8px Baseline)
+     ========================================================================== */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -70,31 +113,52 @@
   --space-16: 64px;
   --space-20: 80px;
 
-  /* Border Radii */
+  /* ==========================================================================
+     5. Border Radius System
+     ========================================================================== */
   --radius-xs: 4px;
   --radius-sm: 8px;
+  --radius-control: 10px;
   --radius-md: 12px;
+  --radius-card: 16px;
   --radius-lg: 16px;
+  --radius-modal: 22px;
   --radius-xl: 24px;
   --radius-2xl: 32px;
+  --radius-pill: 9999px;
   --radius-full: 9999px;
 
-  /* Shadows */
+  /* ==========================================================================
+     6. Shadow System
+     ========================================================================== */
+  --shadow-none: none;
+  --shadow-subtle: 0 2px 8px rgba(46, 37, 39, 0.04);
+  --shadow-card: 0 8px 24px rgba(46, 37, 39, 0.06), 0 2px 6px rgba(46, 37, 39, 0.02);
+  --shadow-modal: 0 20px 60px rgba(28, 21, 23, 0.18), 0 4px 12px rgba(28, 21, 23, 0.06);
+  --shadow-popover: 0 10px 30px rgba(46, 37, 39, 0.10);
+
+  /* Legacy aliases for backward compatibility */
   --shadow-sm: 0 1px 3px rgba(123, 17, 35, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 4px 14px rgba(123, 17, 35, 0.06), 0 2px 4px rgba(0, 0, 0, 0.02);
   --shadow-lg: 0 12px 32px rgba(123, 17, 35, 0.08), 0 4px 8px rgba(0, 0, 0, 0.02);
 
-  /* Transitions */
+  /* ==========================================================================
+     7. Transitions
+     ========================================================================== */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-smooth: 320ms cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Layout */
+  /* ==========================================================================
+     8. Layout & Breakpoints Baseline
+     ========================================================================== */
   --container-max: 1240px;
   --container-padding: 24px;
 }
 
-/* CSS Reset & Baseline */
+/* ==========================================================================
+   CSS Reset & Baseline
+   ========================================================================== */
 *,
 *::before,
 *::after {
@@ -143,14 +207,6 @@ p, span, a, label, li {
   font-family: var(--font-primary);
 }
 
-/* Dynamic / unbounded user & database content protection */
-.dynamicText,
-.unboundedContent,
-.userContent {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
 p {
   color: var(--color-text-secondary);
 }
@@ -181,6 +237,28 @@ button {
   outline-offset: 2px;
 }
 
+/* Dynamic & Unbounded Content Safeguards */
+.dynamicText,
+.unboundedContent,
+.userContent {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Screen-Reader Only Accessible Utility */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Container */
 .container {
   width: 100%;
   max-width: var(--container-max);
@@ -190,9 +268,326 @@ button {
   padding-right: var(--container-padding);
 }
 
-@media (max-width: 768px) {
+/* ==========================================================================
+   Semantic Typography Utility Classes
+   ========================================================================== */
+.fontDisplay {
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.fontPageTitle {
+  font-size: var(--text-page-title);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+}
+
+.fontSectionTitle {
+  font-size: var(--text-section-title);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.fontCardTitle {
+  font-size: var(--text-card-title);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+
+.fontBody {
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+}
+
+.fontBodyMedium {
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+}
+
+.fontSecondary {
+  font-size: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+
+.fontCaption {
+  font-size: var(--text-caption);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.fontLabel {
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   Reusable Form Control Primitives
+   ========================================================================== */
+.formInput,
+.formSelect,
+.formTextarea {
+  width: 100%;
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-4);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.formInput,
+.formSelect {
+  height: var(--control-height-md);
+}
+
+.formTextarea {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+  min-height: 96px;
+  resize: vertical;
+}
+
+.formInput:hover,
+.formSelect:hover,
+.formTextarea:hover {
+  border-color: rgba(123, 17, 35, 0.35);
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.formInput:disabled,
+.formSelect:disabled,
+.formTextarea:disabled {
+  background-color: var(--color-warm);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.formLabel {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: var(--text-label);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.formHelper {
+  font-family: var(--font-primary);
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.formError {
+  font-family: var(--font-primary);
+  font-size: var(--text-caption);
+  color: var(--color-danger);
+  margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   Reusable Card Primitives
+   ========================================================================== */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-subtle);
+  overflow: hidden;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.cardHeader {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cardBody {
+  padding: var(--space-6);
+}
+
+.cardFooter {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-background);
+}
+
+/* ==========================================================================
+   Reusable Modal Primitives
+   ========================================================================== */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(28, 21, 23, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 100;
+}
+
+.modalContainer {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-modal);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 640px;
+  max-height: min(88vh, calc(100dvh - 32px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.modalHeader {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-background);
+  flex-shrink: 0;
+}
+
+.modalBody {
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modalFooter {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.modalCloseBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.modalCloseBtn:hover {
+  background-color: var(--color-rose-soft);
+  color: var(--color-maroon);
+}
+
+/* ==========================================================================
+   Reusable Admin Table Primitives
+   ========================================================================== */
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-subtle);
+}
+
+.adminTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: var(--font-primary);
+}
+
+.tableTh {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-ivory);
+  color: var(--color-text-secondary);
+  font-size: var(--text-label);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.tableTd {
+  padding: var(--space-4);
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  border-bottom: 1px solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.tableRow:last-child .tableTd {
+  border-bottom: none;
+}
+
+.tableRow:hover {
+  background-color: #FAF8F6;
+}
+
+/* ==========================================================================
+   Responsive Breakpoint Rules
+   ========================================================================== */
+@media (max-width: 767px) {
   :root {
     --container-padding: 16px;
+  }
+
+  .modalContainer {
+    max-width: 100%;
+    border-radius: var(--radius-card);
+    max-height: calc(100dvh - 24px);
+  }
+
+  .modalHeader,
+  .modalBody,
+  .modalFooter {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .cardHeader,
+  .cardBody,
+  .cardFooter {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
   }
 }
 
@@ -206,3 +601,4 @@ button {
     scroll-behavior: auto !important;
   }
 }
+

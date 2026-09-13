@@ -1,0 +1,322 @@
+/* Danger Zone Section */
+.dangerZoneContainer {
+  margin-top: 24px;
+  border-radius: 12px;
+  border: 1px solid #FECACA;
+  background-color: #FFF5F5;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.dangerZoneHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.dangerIcon {
+  width: 20px;
+  height: 20px;
+  color: #DC2626;
+  flex-shrink: 0;
+}
+
+.dangerZoneTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #991B1B;
+  margin: 0;
+}
+
+.dangerZoneDescription {
+  font-size: 0.8125rem;
+  color: #7F1D1D;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.dangerZoneContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dangerZoneText {
+  flex: 1;
+  min-width: 200px;
+}
+
+.deleteInitiateBtn {
+  background-color: #DC2626;
+  color: #FFFFFF;
+  border: 1px solid #B91C1C;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  transition: all 0.15s ease-in-out;
+  white-space: nowrap;
+}
+
+.deleteInitiateBtn:hover:not(:disabled) {
+  background-color: #B91C1C;
+}
+
+.deleteInitiateBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Confirmation Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 130;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.modalCard {
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.modalIconWrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #FEE2E2;
+  color: #DC2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modalTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.modalDescription {
+  font-size: 0.875rem;
+  color: #4B5563;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+/* Identity Card */
+.identityCard {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.identityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.8125rem;
+}
+
+.identityRow:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+.identityLabel {
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.identityValue {
+  color: #111827;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+/* Confirmation Input Area */
+.inputLabel {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.confirmInput {
+  width: 100%;
+  height: 44px;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: #111827;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.confirmInput:focus {
+  outline: none;
+  border-color: #DC2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.confirmInput:disabled {
+  background-color: #F3F4F6;
+  cursor: not-allowed;
+}
+
+/* Error Banner */
+.errorBanner {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #B91C1C;
+  font-size: 0.8125rem;
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
+/* Actions Row */
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancelBtn {
+  background-color: #FFFFFF;
+  color: #4B5563;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+  transition: all 0.15s ease-in-out;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background-color: #F9FAFB;
+  color: #111827;
+}
+
+.cancelBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteConfirmBtn {
+  background-color: #DC2626;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s ease-in-out;
+}
+
+.deleteConfirmBtn:hover:not(:disabled) {
+  background-color: #B91C1C;
+}
+
+.deleteConfirmBtn:disabled {
+  background-color: #E5E7EB;
+  color: #9CA3AF;
+  cursor: not-allowed;
+  border: 1px solid #D1D5DB;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #FFFFFF;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .dangerZoneContainer {
+    padding: 16px;
+  }
+
+  .dangerZoneContent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .deleteInitiateBtn {
+    width: 100%;
+  }
+
+  .modalCard {
+    padding: 20px 16px;
+  }
+
+  .modalActions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .cancelBtn,
+  .deleteConfirmBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

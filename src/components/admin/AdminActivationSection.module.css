@@ -1,0 +1,277 @@
+.activationSection {
+  background-color: var(--color-ivory-bg, #FCFAF7);
+  border: 1px solid var(--color-border, #EFE8E9);
+  border-radius: var(--radius-card, 16px);
+  padding: var(--space-5, 20px);
+  margin-bottom: var(--space-5, 20px);
+  box-shadow: var(--shadow-subtle, 0 2px 8px rgba(46, 37, 39, 0.04));
+  transition: all 0.2s ease;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4, 16px);
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  font-size: var(--text-card-title, 1.0625rem);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-maroon, #7B1123);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+}
+
+.titleIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-maroon, #7B1123);
+  flex-shrink: 0;
+}
+
+.alertBanner {
+  border-radius: var(--radius-control, 10px);
+  padding: 12px 16px;
+  font-size: var(--text-secondary, 0.8125rem);
+  line-height: 1.4;
+  margin-bottom: var(--space-4, 16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3, 12px);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.alertSuccess {
+  background-color: var(--color-success-bg, #ECFDF5);
+  border: 1px solid var(--color-success-border, #A7F3D0);
+  color: var(--color-success, #059669);
+}
+
+.alertError {
+  background-color: var(--color-danger-bg, #FEF2F2);
+  border: 1px solid var(--color-danger-border, #FECACA);
+  color: var(--color-danger, #DC2626);
+}
+
+.alertDismissBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.7;
+  padding: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.alertDismissBtn:hover {
+  opacity: 1;
+}
+
+.detailsCard {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border, #EFE8E9);
+  border-radius: var(--radius-md, 12px);
+  padding: var(--space-4, 16px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4, 16px);
+  align-items: start;
+  margin-bottom: var(--space-4, 16px);
+}
+
+.detailItem {
+  min-width: 0;
+}
+
+.detailLabel {
+  font-size: var(--text-caption, 0.75rem);
+  font-weight: 500;
+  color: var(--color-text-muted, #8C7D81);
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detailValue {
+  font-size: var(--text-body, 0.9375rem);
+  font-weight: 600;
+  display: block;
+  word-break: break-word;
+}
+
+.statusPending {
+  color: var(--color-warning, #D97706);
+}
+
+.statusActive {
+  color: var(--color-success, #059669);
+}
+
+.otpVerificationBox {
+  background-color: #FFFFFF;
+  border: 1.5px dashed var(--color-border-strong, rgba(46, 37, 39, 0.18));
+  border-radius: var(--radius-md, 12px);
+  padding: var(--space-5, 20px);
+  margin-top: var(--space-4, 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.otpBoxTitle {
+  font-size: var(--text-bodyMedium, 0.9375rem);
+  font-weight: 700;
+  color: var(--color-text-primary, #2E2527);
+  margin: 0 0 6px 0;
+}
+
+.otpInstruction {
+  font-size: var(--text-secondary, 0.8125rem);
+  color: var(--color-text-muted, #8C7D81);
+  margin: 0 0 var(--space-4, 16px) 0;
+  max-width: 440px;
+}
+
+.otpInputContainer {
+  margin-bottom: var(--space-4, 16px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.otpErrorFeedback {
+  color: var(--color-danger, #DC2626);
+  font-size: var(--text-secondary, 0.8125rem);
+  font-weight: 500;
+  margin-bottom: var(--space-3, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.otpActionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  width: 100%;
+}
+
+.verifyBtn {
+  min-height: var(--control-height-md, 44px);
+  min-width: 160px;
+  font-weight: 600;
+}
+
+.resendBtn {
+  min-height: var(--control-height-md, 44px);
+  font-weight: 600;
+}
+
+.activeProfilePrompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  margin-top: var(--space-3, 12px);
+  padding: 12px 16px;
+  background-color: var(--color-rose-bg, #FAF1F3);
+  border: 1px solid var(--color-rose-border, #F7D6DE);
+  border-radius: var(--radius-control, 10px);
+}
+
+.activePromptText {
+  font-size: var(--text-secondary, 0.8125rem);
+  color: var(--color-maroon-dark, #5E0D1B);
+  font-weight: 500;
+}
+
+.editProfileBtn {
+  min-height: var(--control-height-sm, 38px);
+  padding: 0 16px;
+  font-size: var(--text-secondary, 0.8125rem);
+  font-weight: 600;
+  background-color: var(--color-maroon, #7B1123);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-control, 10px);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.editProfileBtn:hover {
+  background-color: var(--color-maroon-dark, #5E0D1B);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .activationSection {
+    padding: var(--space-4, 16px) 14px;
+  }
+  
+  .detailsCard {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .otpVerificationBox {
+    padding: var(--space-4, 16px) 10px;
+  }
+
+  .otpActionsRow {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .verifyBtn,
+  .resendBtn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .activeProfilePrompt {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .editProfileBtn {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+}
